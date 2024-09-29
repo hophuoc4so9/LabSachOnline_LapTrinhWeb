@@ -1,0 +1,72 @@
+﻿@model IEnumerable<HoTuanPhuoc.Models.SACH>
+<div class="container">
+    <h2 class="text-center">SÁCH BÁN NHIỀU</h2>
+
+    <div class="book-container">
+        @foreach (var sach in Model)
+        {
+            <div class="book-item">
+                <div class="media-left">
+                    <a href="@Url.Action("BookDetail", "HoTuanPhuoc", new { id = sach.MaSach })">
+                        <img class="media-object imgsachbannhieu" src="~/Images/@sach.AnhBia" alt="placeholder image">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">@sach.TenSach</h4>
+                    <p class="truncate-4-lines">
+                        @sach.MoTa
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <hr>
+</div>
+
+<style>
+
+.book-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    justify-content: space-between; /* Space between items */
+}
+
+.book-item {
+    display: flex;
+    flex-direction: row; /* Align items horizontally */
+    border: 1px solid #ddd; /* Light border */
+    margin: 10px; /* Spacing between items */
+    padding: 10px; /* Inner padding */
+    width: calc(50% - 20px); 
+  
+}
+    .media-left img {
+        height: 100px; /* Fixed height for images */
+        width: auto; /* Maintain aspect ratio */
+        transition: all 1s ease-in;
+    }
+  
+    .media-left:hover {
+        transform: scale(0.9);
+        cursor: pointer;
+    }
+.media-left{
+    justify-content:center;
+}
+.media-body {
+    padding-left: 10px; /* Space between image and text */
+    flex-grow: 1; /* Allow the text area to grow */
+}
+
+.truncate-4-lines {
+    display: -webkit-box; /* Enables the flexbox model */
+    -webkit-box-orient: vertical; /* Sets the orientation to vertical */
+    -webkit-line-clamp: 4; /* Limits to 4 lines */
+    overflow: hidden; /* Hides overflow content */
+    text-overflow: ellipsis; /* Adds ellipsis for truncated content */
+    line-height: 1.2; /* Adjusts line height for spacing */
+    max-height: 4.8em; /* Maximum height based on line height (1.2 * 4 lines) */
+}
+
+</style>

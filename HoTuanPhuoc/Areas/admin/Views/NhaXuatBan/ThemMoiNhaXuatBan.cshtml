@@ -1,0 +1,48 @@
+﻿@model HoTuanPhuoc.Models.NHAXUATBAN
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ThemMoiNhaXuatBan</title>
+</head>
+<body>
+
+
+    <h2>Thêm nhà xuát bản</h2>
+    <form   method="post" name="ThemNXB"  >
+        <table>
+            <tr>
+                <td>
+                    Tên nhà xuất bản
+                </td>
+                <td>
+                    <input name="TenNXB"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Địa chỉ
+                </td>
+                <td>   <input name="DiaChi" /></td>
+            </tr>
+            <tr>
+                <td>
+                    Điện thoại
+                </td>
+                <td>   <input name="DienThoai" /></td>
+            </tr>
+        </table>
+        <input type="submit" value="Lưu" />
+        <input type="reset" value="Xóa" />
+    </form>
+    <div>
+        @Html.ActionLink("Quay lui", "Index")
+    </div>
+</body>
+</html>

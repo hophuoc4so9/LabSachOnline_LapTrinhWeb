@@ -1,0 +1,35 @@
+﻿@model IEnumerable<HoTuanPhuoc.Models.CHUDE>
+
+@{
+    ViewBag.Title = "ChuDe";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+}
+
+
+    <h2>Chủ đề</h2>
+
+
+    <table class="table">
+        <tr>
+            <th>
+                Mã chủ đề
+            </th>
+            <th>
+                Tên chủ đề
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaCD)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenChuDe)
+                </td>
+
+            </tr>
+        }
+
+    </table>
