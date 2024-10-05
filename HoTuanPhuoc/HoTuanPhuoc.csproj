@@ -248,6 +248,7 @@
     <Content Include="Images\thu1.jpg" />
     <Content Include="Images\TiengAnh01.jpg" />
     <Content Include="Images\xehang.gif" />
+    <Content Include="LuotTruyCap.txt" />
     <Content Include="Models\DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DB.Context.cs</LastGenOutput>
@@ -318,8 +319,8 @@
     <Content Include="Views\HoTuanPhuoc\sachtheochude.cshtml" />
     <Content Include="Views\HoTuanPhuoc\sachtheonhaxuatban.cshtml" />
     <Content Include="Views\HoTuanPhuoc\BookDetail.cshtml" />
-    <Content Include="Views\User\DangKy.cshtml" />
     <Content Include="Views\User\DangNhap.cshtml" />
+    <Content Include="Views\Shared\_PartialLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

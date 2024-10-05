@@ -1,4 +1,14 @@
 ﻿@model IEnumerable<HoTuanPhuoc.Models.SACH>
+    @helper Truncate(string s,int length)
+    {
+    if(s.Length<length)
+    {
+        @s
+    }    else
+    {
+        @s.Substring(0,length)<text>...</text>
+    }    
+    }
 <div class="container">
     <h2 class="text-center">SÁCH BÁN NHIỀU</h2>
 
@@ -14,7 +24,8 @@
                 <div class="media-body">
                     <h4 class="media-heading">@sach.TenSach</h4>
                     <p class="truncate-4-lines">
-                        @sach.MoTa
+                        @*@sach.MoTa*@
+                        @Truncate(sach.MoTa,190)
                     </p>
                 </div>
             </div>

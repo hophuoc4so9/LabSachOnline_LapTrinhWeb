@@ -9,26 +9,28 @@
         height: 40px;
     }
 </style>
-<h4 style="color:red; text-align:center;">@ViewBag.ThongBao</h4>
+
 <h2 style="text-align:center;">ĐĂNG NHẬP</h2>
+<h4 style="color:red; text-align:center;">@ViewBag.ThongBao</h4>
 <table align="center">
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary(true)
-        <tr>
-            <td>Tên đăng nhập: </td>
-            <td>
-                @Html.TextBox("TenDN")
-                @ViewData["Err1"]
-            </td>
-        </tr>
-        <tr>
-            <td>Mật khẩu: </td>
-            <td>
-                @Html.Password("MatKhau")
-                @ViewBag.Err2
-            </td>
-            11
+    @*@using (Html.BeginForm("DangNhap", "User", FormMethod.Post))*@
+    <!--{-->
+    @*@Html.ValidationSummary(true)*@
+    <!--<tr>
+        <td>Tên đăng nhập: </td>
+        <td>-->
+    @*<input name="TenDN"/>*@
+    @*@Html.TextBox("TenDN")*@
+
+    <!--</td>
+    </tr>
+    <tr>
+        <td>Mật khẩu: </td>
+        <td>-->
+    @*@Html.Password("MatKhau")*@
+
+    <!--</td>
+
         </tr>
         <tr>
             <td></td>
@@ -36,5 +38,65 @@
                 <input type="submit" value="Đăng nhập" />
             </td>
         </tr>
+    }-->
+    @if (Request.Cookies["TenDN"] != null && Request.Cookies["MatKhau"] != null)
+    {
+        using (Html.BeginForm("DangNhap", "User", FormMethod.Post))
+        {
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Tên đăng nhập</label>
+                <input name="TenDN" class="form-control" value="@Request.Cookies["TenDN"].Value" />
+
+            </div>
+
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label for="form2Example2">Mật khẩu</label>
+                <input name="MatKhau" value="@Request.Cookies["MatKhau"].Value" type="password" id="form2Example2" class="form-control" />
+
+            </div>
+            <div class="form-check">
+                <input name="remember" class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                <label class="form-check-label" for="form2Example31"> Nhớ mật khẩu</label>
+            </div>
+
+
+            <!-- Submit button -->
+            <button style="display:inline-block" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Đăng nhập </button>
+        }
     }
+    else
+    {
+        using (Html.BeginForm("DangNhap", "User", FormMethod.Post))
+        {
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Tên đăng nhập</label>
+                <input name="TenDN" class="form-control"  />
+
+            </div>
+
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+                <label for="form2Example2">Mật khẩu</label>
+                <input name="MatKhau"  type="password" id="form2Example2" class="form-control" />
+
+            </div>
+            <div class="form-check">
+                <input name="remember" class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                <label class="form-check-label" for="form2Example31"> Nhớ mật khẩu</label>
+            </div>
+
+
+            <!-- Submit button -->
+            <button style="display:inline-block" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Đăng nhập </button>
+        }
+    }
+
+
+
+
+
+
 </table>

@@ -20,7 +20,11 @@ namespace HoTuanPhuoc.Controllers
             List<SACH> kq= db.SACHes.OrderByDescending(a=>a.NgayCapNhat).Take(count).ToList();
             return kq;
         }
-       
+        public ActionResult _PartialLogin()
+        {
+            return PartialView("_PartialLogin");
+        }
+
         public ActionResult ChuDe()
         {
             SachOnlineEntities db = new SachOnlineEntities();
@@ -89,5 +93,6 @@ namespace HoTuanPhuoc.Controllers
         {
             return PartialView();
         }
+
     }
 }

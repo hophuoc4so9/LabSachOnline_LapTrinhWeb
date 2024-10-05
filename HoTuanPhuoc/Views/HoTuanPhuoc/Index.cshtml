@@ -7,11 +7,20 @@
 <h2 class="text-center">SÁCH MỚI</h2>
 <hr>
 <div class="row text-center">
+    
+    @{var i = 0;}
     @foreach (var sach in Model)
     {
-        <div class="col-sm-4 col-md-4 col-lg-4 col-xs-6">
+        i++;
+
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xs-6 
+             @if (i % 3 == 0) 
+             {@:hidden-xs 
+             } 
+            ">
+
             <div class="thumbnail book-thumbnail">
-                <img src="~/Images/@sach.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook" />
+                <img src="~/Images/@sach.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook " />
                 <div class="caption">
                     <h4 style="min-height:70px;">
                         <a href="@Url.Action("BookDetail", "HoTuanPhuoc", new { id = sach.MaSach })">@sach.TenSach</a>
@@ -46,7 +55,7 @@
 
 <style>
     .book-thumbnail {
-        min-height: 400px; /* Set a minimum height if needed */
+        min-height: 425px; /* Set a minimum height if needed */
         flex-grow: 1; /* Allow items to grow to fill the container */
         display: flex;
         flex-direction: column; /* Ensure items stack vertically */
