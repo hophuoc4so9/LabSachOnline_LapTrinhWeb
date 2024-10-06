@@ -37,10 +37,10 @@
 <body>
 
 
-    @Html.Action("PartialNav", "HoTuanPhuoc", new {area=""})
+    @Html.Action("PartialNav", "HoTuanPhuoc", new { area = "" })
     <div class="container-fluid">
         @Html.Action("_PartialCarousel", "HoTuanPhuoc", new { area = "" })
-      
+
         <hr>
     </div>
     <!-- /.container-->
@@ -61,13 +61,15 @@
             </div>
             <hr>
         </div>
-        </div>
+    </div>
     <!-- /.container-->
     @RenderSection("sachbannhieu", required: false)
+
+    @RenderSection("BinhLuan", required: false)
     <!-- /.container-->
 
     @Html.Action("_PartialFooter", "HoTuanPhuoc", new { area = "" })
-   
+
 </body>
 </html>
 

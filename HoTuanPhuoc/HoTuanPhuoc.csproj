@@ -141,6 +141,9 @@
     <Compile Include="Models\ADMIN.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BinhLuan.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CHITIETDATHANG.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -321,6 +324,8 @@
     <Content Include="Views\HoTuanPhuoc\BookDetail.cshtml" />
     <Content Include="Views\User\DangNhap.cshtml" />
     <Content Include="Views\Shared\_PartialLogin.cshtml" />
+    <Content Include="Views\User\DangKy.cshtml" />
+    <Content Include="Views\HoTuanPhuoc\_PartialBinhLuan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

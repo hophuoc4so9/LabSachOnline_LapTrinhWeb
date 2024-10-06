@@ -19,6 +19,7 @@ namespace HoTuanPhuoc.Models
         {
             this.CHITIETDATHANGs = new HashSet<CHITIETDATHANG>();
             this.VIETSACHes = new HashSet<VIETSACH>();
+            this.BinhLuans = new HashSet<BinhLuan>();
         }
     
         public int MaSach { get; set; }
@@ -37,5 +38,7 @@ namespace HoTuanPhuoc.Models
         public virtual NHAXUATBAN NHAXUATBAN { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VIETSACH> VIETSACHes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BinhLuan> BinhLuans { get; set; }
     }
 }

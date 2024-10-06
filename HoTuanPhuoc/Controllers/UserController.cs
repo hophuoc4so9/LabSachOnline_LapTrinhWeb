@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity.Infrastructure.Design;
+using System.Security.Cryptography;
+using System.Text;
+using System.Data.Entity.Validation;
 
 namespace HoTuanPhuoc.Controllers
 {
@@ -31,62 +34,95 @@ namespace HoTuanPhuoc.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult DangKy(FormCollection collection, KHACHHANG nd)
+        public ActionResult DangKy(FormCollection collection,KHACHHANG kh)
         {
-            // Retrieve form values
-            var hoten = collection["HoTen"];
-            var tendn = collection["TenDN"];
-            var matkhau = collection["MatKhau"];
-            var nhaplaimk = collection["MatKhauL"];
-            var email = collection["Email"];
-            var dienthoai = collection["DienThoai"];
-            var ngaysinh = String.Format("{0:MM/dd/yyyy}", collection["NgaySinh"]);
+            string sHoTen = collection["HoTen"];
+            var sTenDN = collection["TenDN"];
+            var sMatKhau = collection["MatKhau"];
+            var sNhapLaiMatKhau = collection["NhapLaiMatKhau"];
+            var sEmail = collection["Email"];
+            var sDienThoai = collection["DienThoai"];
+            var sDiaChi = collection["DiaChi"];
+            var sNgaySinh = String.Format("{0:MM/dd/yyyy}", collection["NgaySinh"]);
 
-            // Error validation logic
-            if (String.IsNullOrEmpty(hoten))
+            if (String.IsNullOrEmpty(sHoTen))
             {
-                ViewData["err1"] = "Họ tên không được để trống";
+                ViewData["err1"] = "Họ tên không được rỗng";
             }
-            else if (String.IsNullOrEmpty(tendn))
+            else if (String.IsNullOrEmpty(sTenDN))
             {
-                ViewData["err2"] = "Tên đăng nhập không được để trống";
+                ViewData["err2"] = "Tên đăng nhập không được rỗng";
             }
-            else if (String.IsNullOrEmpty(matkhau))
+            else if (String.IsNullOrEmpty(sMatKhau))
             {
-                ViewData["err3"] = "Mật khẩu không được để trống";
+                ViewData["err3"] = "Mật khẩu không được rỗng";
             }
-            else if (String.IsNullOrEmpty(nhaplaimk))
+            else if (String.IsNullOrEmpty(sNhapLaiMatKhau))
             {
-                ViewData["err4"] = "Nhập lại mật khẩu không được để trống";
+                ViewData["err4"] = "Nhập mật khẩu lại";
             }
-            else if (matkhau != nhaplaimk)
+            else if (sMatKhau != sNhapLaiMatKhau)
             {
-                ViewData["err4"] = "Mật khẩu nhập lại không khớp";
+                ViewData["err4"] = "Mật khẩu phải giống nhau";
             }
-            else if (String.IsNullOrEmpty(email))
+            else if (String.IsNullOrEmpty(sEmail))
             {
-                ViewData["err5"] = "Email không được để trống";
+                ViewData["err5"] = "Email không được rỗng";
             }
-            else if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == tendn || n.Email == email) != null)
+            else if (String.IsNullOrEmpty(sDienThoai))
             {
-                ViewBag.ThongBao = "Tên đăng nhập hoặc email đã được sử dụng";
+                ViewData["err6"] = "Số điện thoại không được rỗng";
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == sTenDN) != null)
+            {
+                ViewBag.ThongBao = "Tên đăng nhập đã được sử dụng";
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.Email == sEmail) != null)
+            {
+                ViewBag.ThongBao = "Email đã được sử dụng";
             }
             else
             {
-                // Populate and save user data to the database
-                nd.HoTen = hoten;
-                nd.TaiKhoan = tendn;
-                nd.MatKhau = matkhau;
-                nd.Email = email;
-                nd.DienThoai = dienthoai;
-                nd.NgaySinh = DateTime.Parse(ngaysinh);
-                db.KHACHHANGs.Add(nd);
+                //Gán giá trị cho đối tượng được tạo mới (kh)
+                string hashedPassword = GetMD5(sMatKhau);
+
+                kh.HoTen = sHoTen;
+                kh.TaiKhoan = sTenDN;
+                kh.MatKhau = hashedPassword;
+                kh.Email = sEmail;
+                kh.DienThoai = sDienThoai;
+                kh.DiaChi = sDiaChi;
+                kh.NgaySinh = DateTime.Parse(sNgaySinh);
+
+                db.KHACHHANGs.Add(kh);
                 db.SaveChanges();
-                ViewBag.ThongBao = "Đã đăng ký thành công";
+                SendMail(sEmail, sTenDN);
+                return RedirectToAction("DangNhap");
+
             }
 
             return this.DangKy();
         }
+        public static string GetMD5(string str)
+        {
+
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+
+            byte[] bHash = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+
+            StringBuilder sbHash = new StringBuilder();
+
+            foreach (byte b in bHash)
+            {
+
+                sbHash.Append(String.Format("{0:x2}", b));
+
+            }
+
+            return sbHash.ToString();
+
+        }
+
         [HttpPost]
         public ActionResult DangNhap(FormCollection f)
         {
@@ -99,7 +135,8 @@ namespace HoTuanPhuoc.Controllers
             }
             else
             {
-                KHACHHANG kh = db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == tenDangNhap && n.MatKhau == matKhau);
+                string hashedPassword = GetMD5(matKhau);
+                KHACHHANG kh = db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == tenDangNhap && n.MatKhau == hashedPassword);
                 if (kh != null)
                 {
                     ViewBag.ThongBao = "Chúc mừng đăng nhập thành công";
@@ -136,22 +173,22 @@ namespace HoTuanPhuoc.Controllers
         }
 
 
-        public ActionResult SendMail(string recipientEmail)
+        public ActionResult SendMail(string recipientEmail,string sTenDN)
         {
             // Cấu hình thông tin Gmail
             var mail = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "coce jxbe bmql smty"),
+                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "hypj elbb ncoc rfnj"),
                 EnableSsl = true
             };
 
             // Tạo email
             var message = new MailMessage
             {
-                From = new MailAddress("ten_tai_khoan@gmail.com"), // Replace with your email
-                Subject = "Đăng Nhập Thành Công",
-                Body = "Chúc mừng! Bạn đã đăng nhập thành công vào hệ thống.",
-                IsBodyHtml = true // Set to true if you want to format the body with HTML
+                From = new MailAddress("2224802010872@student.tdmu.edu.vn"), // Replace with your email
+                Subject = "Chúc mừng bạn đã đăng ký thành công tài khoản vào hệ thống",
+                Body = "Chúc mừng! Chúc mừng bạn đã đăng ký thành công tài khoản "+ sTenDN+ " vào hệ thống sách",
+                //IsBodyHtml = true // Set to true if you want to format the body with HTML
             };
 
             message.To.Add(new MailAddress(recipientEmail));

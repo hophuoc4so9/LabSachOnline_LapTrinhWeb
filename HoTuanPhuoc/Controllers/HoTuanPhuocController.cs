@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using HoTuanPhuoc.Models;
@@ -73,6 +74,7 @@ namespace HoTuanPhuoc.Controllers
         {
             SachOnlineEntities db = new SachOnlineEntities();
             SACH sACH = db.SACHes.Where(item => item.MaSach == id).ToList().SingleOrDefault();
+            ViewBag.MaSach = id;
             return View(sACH);
         }
         [ChildActionOnly]
@@ -82,6 +84,13 @@ namespace HoTuanPhuoc.Controllers
             List<NHAXUATBAN> Model = db.NHAXUATBANs.ToList();
     
             return PartialView( Model);
+        }
+        public ActionResult _PartialBinhLuan(int maSach)
+        {
+            SachOnlineEntities db = new SachOnlineEntities();
+            List<BinhLuan> Model = db.BinhLuans.Where(a=>a.MaSach== maSach).ToList();
+            ViewBag.MaSach = maSach;
+            return PartialView(Model);
         }
         [ChildActionOnly]
         public ActionResult _PartialFooter()
@@ -93,6 +102,25 @@ namespace HoTuanPhuoc.Controllers
         {
             return PartialView();
         }
+        [HttpPost]
+        public ActionResult ThemMoiBinhLuan(FormCollection collection, BinhLuan bl)
+        {
+            var noidung= collection["NoiDung"]; 
+            if (String.IsNullOrEmpty(noidung) )
+            {
+                ViewBag.ThongBao = "Nội dung không được rỗng";
+                return this.BookDetail(int.Parse(bl.MaSach.ToString()));
+            }
+         
 
+            bl.NgayTao = DateTime.Now;
+           bl.MaKH=Session["Taikhoan"] == null ? 1 : (Session["Taikhoan"] as KHACHHANG).MaKH;
+            bl.MaSach=collection["MaSach"] == null ? 1 : int.Parse(collection["MaSach"]);   
+            SachOnlineEntities db = new SachOnlineEntities();
+            db.BinhLuans.Add(bl);
+            db.SaveChanges();
+            return RedirectToAction("BookDetail", new { id = int.Parse(collection["MaSach"]) });
+
+        }
     }
 }
