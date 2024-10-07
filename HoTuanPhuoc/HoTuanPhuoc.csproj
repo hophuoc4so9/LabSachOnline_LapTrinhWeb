@@ -132,6 +132,7 @@
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
     <Compile Include="Controllers\FileAndMailController.cs" />
     <Compile Include="Areas\admin\Controllers\NhaXuatBanController.cs" />
+    <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HoTuanPhuocController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Models\DONDATHANG.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\KHACHHANG.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -325,7 +327,11 @@
     <Content Include="Views\User\DangNhap.cshtml" />
     <Content Include="Views\Shared\_PartialLogin.cshtml" />
     <Content Include="Views\User\DangKy.cshtml" />
-    <Content Include="Views\HoTuanPhuoc\_PartialBinhLuan.cshtml" />
+    <Content Include="Views\Shared\_PartialBinhLuan.cshtml" />
+    <Content Include="Views\GioHang\GioHang.cshtml" />
+    <Content Include="Views\Shared\GioHangPartial.cshtml" />
+    <Content Include="Views\GioHang\DatHang.cshtml" />
+    <Content Include="Views\GioHang\XacNhanDonHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

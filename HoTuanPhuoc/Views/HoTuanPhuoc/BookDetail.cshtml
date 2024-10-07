@@ -31,8 +31,9 @@
 
 
 <div class="mt-3 centered-text">
-    @Html.ActionLink("Add to Cart", "Edit", new { id = Model.MaSach }, new { @class = "btn btn-primary" })
-
+    <a href="@Url.Action("ThemGioHang", "GioHang", new { ms = Model.MaSach, url = Request.Url.ToString() })" class="btn btn-primary" role="button">
+        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add to Cart
+    </a>
 </div>
 
 @section BinhLuan{
