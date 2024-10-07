@@ -1,10 +1,13 @@
-﻿using System;
+﻿using HoTuanPhuoc.Models;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Services.Description;
 
 namespace HoTuanPhuoc
 {
@@ -21,7 +24,9 @@ namespace HoTuanPhuoc
             string s = stReader.ReadLine();
             stReader.Close();
             Application.Add("HitCounter", s);
-            Application["Online"] = 0; 
+            Application["Online"] = 0;
+
+
         }
          void Session_Start(object sender,EventArgs e)
         {

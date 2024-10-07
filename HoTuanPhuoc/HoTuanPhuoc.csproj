@@ -130,11 +130,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="Controllers\ConfigurationHelper.cs" />
     <Compile Include="Controllers\FileAndMailController.cs" />
     <Compile Include="Areas\admin\Controllers\NhaXuatBanController.cs" />
     <Compile Include="Controllers\GioHangController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HoTuanPhuocController.cs" />
+    <Compile Include="Controllers\IMomoService.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -174,6 +176,7 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MomoApiConfig.cs" />
     <Compile Include="Models\NHAXUATBAN.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -287,6 +290,7 @@
     <Content Include="Areas\admin\Views\NhaXuatBan\XoaNXB.cshtml" />
     <Content Include="Views\FileAndMail\Index.cshtml" />
     <Content Include="Views\FileAndMail\SendMail.cshtml" />
+    <Content Include="appsetting.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -338,6 +342,7 @@
     <Folder Include="Areas\admin\Data\" />
     <Folder Include="Areas\admin\Views\Shared\" />
     <Folder Include="UploadFile\" />
+    <Folder Include="Views\IMomoService\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
