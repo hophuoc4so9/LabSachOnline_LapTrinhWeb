@@ -27,6 +27,7 @@
           <Property Name="NoiDung" Type="nvarchar" MaxLength="1000" />
           <Property Name="NgayTao" Type="date" />
           <Property Name="NgaySua" Type="date" />
+          <Property Name="Rate" Type="int" />
         </EntityType>
         <EntityType Name="CHITIETDATHANG">
           <Key>
@@ -528,6 +529,7 @@
           <Property Name="NgaySua" Type="DateTime" Precision="0" />
           <NavigationProperty Name="KHACHHANG" Relationship="SachOnlineModel.FK_BinhLuan_CD" FromRole="BinhLuan" ToRole="KHACHHANG" />
           <NavigationProperty Name="SACH" Relationship="SachOnlineModel.FK_BinhLuan_S" FromRole="BinhLuan" ToRole="SACH" />
+          <Property Name="Rate" Type="Int32" />
         </EntityType>
         <Association Name="FK_BinhLuan_CD">
           <End Type="SachOnlineModel.KHACHHANG" Role="KHACHHANG" Multiplicity="0..1" />
@@ -664,6 +666,7 @@
           <EntitySetMapping Name="BinhLuans">
             <EntityTypeMapping TypeName="SachOnlineModel.BinhLuan">
               <MappingFragment StoreEntitySet="BinhLuan">
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="NgaySua" ColumnName="NgaySua" />
                 <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
                 <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />

@@ -34,7 +34,7 @@ namespace HoTuanPhuoc.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult DangKy(FormCollection collection,KHACHHANG kh)
+        public ActionResult DangKy(FormCollection collection, KHACHHANG kh)
         {
             string sHoTen = collection["HoTen"];
             var sTenDN = collection["TenDN"];
@@ -126,8 +126,8 @@ namespace HoTuanPhuoc.Controllers
         [HttpPost]
         public ActionResult DangNhap(FormCollection f)
         {
-            string tenDangNhap= f["TenDN"];
-            string matKhau =f["MatKhau"];
+            string tenDangNhap = f["TenDN"];
+            string matKhau = f["MatKhau"];
             ViewBag.ThongBao = "";
             if (string.IsNullOrEmpty(tenDangNhap) || string.IsNullOrEmpty(matKhau))
             {
@@ -163,17 +163,17 @@ namespace HoTuanPhuoc.Controllers
 
 
             }
-                return View();
+            return View();
 
         }
-       public ActionResult DangXuat()
+        public ActionResult DangXuat()
         {
             Session["Taikhoan"] = null;
             return RedirectToAction("Index", "HoTuanPhuoc");
         }
 
 
-        public ActionResult SendMail(string recipientEmail,string sTenDN)
+        public ActionResult SendMail(string recipientEmail, string sTenDN)
         {
             // Cấu hình thông tin Gmail
             var mail = new SmtpClient("smtp.gmail.com", 587)
@@ -187,7 +187,7 @@ namespace HoTuanPhuoc.Controllers
             {
                 From = new MailAddress("2224802010872@student.tdmu.edu.vn"), // Replace with your email
                 Subject = "Chúc mừng bạn đã đăng ký thành công tài khoản vào hệ thống",
-                Body = "Chúc mừng! Chúc mừng bạn đã đăng ký thành công tài khoản "+ sTenDN+ " vào hệ thống sách",
+                Body = "Chúc mừng! Chúc mừng bạn đã đăng ký thành công tài khoản " + sTenDN + " vào hệ thống sách",
                 //IsBodyHtml = true // Set to true if you want to format the body with HTML
             };
 

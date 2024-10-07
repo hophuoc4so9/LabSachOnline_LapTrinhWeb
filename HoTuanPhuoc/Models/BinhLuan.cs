@@ -21,6 +21,7 @@ namespace HoTuanPhuoc.Models
         public string NoiDung { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<System.DateTime> NgaySua { get; set; }
+        public Nullable<int> Rate { get; set; }
     
         public virtual KHACHHANG KHACHHANG { get; set; }
         public virtual SACH SACH { get; set; }
