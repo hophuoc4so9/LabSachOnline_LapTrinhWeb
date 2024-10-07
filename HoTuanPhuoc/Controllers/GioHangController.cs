@@ -1,7 +1,15 @@
 ﻿using HoTuanPhuoc.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -171,12 +179,14 @@ namespace HoTuanPhuoc.Controllers
             ddh.MaKH = kh.MaKH;
             ddh.NgayDat = DateTime.Now;
             var NgayGiao = String.Format("{0:MM/dd/yyyy}", f["NgayGiao"]);
+            SendMail(kh.Email);
             ddh.NgayGiao = DateTime.Parse(NgayGiao);
             ddh.DaThanhToan = false;
-
+           
             db.DONDATHANGs.Add(ddh);
             db.SaveChanges();
-
+            string phuongthucthanhtoan = f["paymentMethod"];
+          
             // Thêm chi tiết đơn hàng
             foreach (var item in lstCart)
             {
@@ -191,8 +201,15 @@ namespace HoTuanPhuoc.Controllers
             }
 
             db.SaveChanges();
+            if (phuongthucthanhtoan=="momo")
+            {
 
-            Session["GioHang"] = null;
+            }    
+            else
+            {
+
+            }    
+                Session["GioHang"] = null;
 
             return RedirectToAction("XacNhanDonHang", "GioHang");
         }
@@ -200,6 +217,97 @@ namespace HoTuanPhuoc.Controllers
         {
             return View();
 
+        }
+
+
+
+
+
+        public ActionResult SendMail(string recipientEmail)
+        {
+            List<GioHang> lstGioHang = LayGioHang();
+            double soluong = TongSoLuong();
+            double soTien = TongTien();
+            KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
+            // Cấu hình thông tin Gmail
+            string Body = $@"
+<html>
+<head>
+    <style>
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
+        th, td {{
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }}
+        th {{
+            background-color: #f2f2f2;
+        }}
+        .total {{
+            text-align: right;
+            color: red;
+            font-weight: bold;
+            padding-right: 10px;
+        }}
+    </style>
+</head>
+<body>
+  <h1>Chào {kh.HoTen}</h1>
+    <p>Cảm ơn bạn đã đặt hàng của chúng tôi. Chi tiết đơn hàng của bạn ở trên.</p>
+    <h2 style='text-align:center; font-weight:bold;'>THÔNG TIN ĐƠN HÀNG</h2>
+    <table>
+        <tr>
+            <th>Sách</th>
+            
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+        </tr>";
+
+            foreach (var item in lstGioHang)
+            {
+                Body += $@"
+        <tr>
+            <td>{@item.iMaSach}</td>
+            <td>{@item.iSoLuong}</td>
+            <td>{string.Format("{0:#,##0,0}", @item.dThanhTien)}</td>
+        </tr>";
+            }
+
+            Body += $@"
+        <tr>
+            <td colspan='4' class='total'>
+                Tổng tiền: {string.Format("{0:#,##0,0}", soTien)} VND
+            </td>
+        </tr>
+    </table>
+  
+</body>
+</html>";
+
+            var mail = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "qupv gfrx jqwi zrqv"),
+                EnableSsl = true
+            };
+           
+            // Tạo email
+            var message = new MailMessage
+            {
+                From = new MailAddress("2224802010872@student.tdmu.edu.vn"), // Replace with your email
+                Subject = "Xác nhận đơn hàng",
+                Body = Body,
+            IsBodyHtml = true // Set to true if you want to format the body with HTML
+            };
+
+            message.To.Add(new MailAddress(recipientEmail));
+
+            // Gửi email
+            mail.Send(message);
+
+            return View("DangNhap"); // Redirect or return a different view if needed
         }
     }
 }

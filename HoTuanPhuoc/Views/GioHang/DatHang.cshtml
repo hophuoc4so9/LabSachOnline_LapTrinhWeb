@@ -75,14 +75,57 @@
                 <input type="date" name="NgayGiao" />
             </td>
         </tr>
-
-        <tr style="height:40px;">
-            <td></td>
+        <tr class="payment-options" style="height:40px;">
             <td>
-                <input type="submit" value="ĐẶT HÀNG" />
+                <label>
+                    <input type="radio" name="paymentMethod" value="momo" />
+                    Momo
+                </label>
+            </td>
+            <td>
+                <label>
+                    <input type="radio" name="paymentMethod" value="vnpay" />
+                    VNPAY
+                </label>
+            </td>
+        </tr>
+        <tr class="submit-row" style="height:40px;">
+            <td colspan="2">
+                <input type="submit" class="order-btn" value="ĐẶT HÀNG" />
             </td>
         </tr>
 
-      
+
     </table>
 }
+<style>
+    .payment-options td {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .payment-options label {
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .payment-options input[type="radio"] {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .submit-row .order-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        .submit-row .order-btn:hover {
+            background-color: #45a049;
+        }
+
+</style>
