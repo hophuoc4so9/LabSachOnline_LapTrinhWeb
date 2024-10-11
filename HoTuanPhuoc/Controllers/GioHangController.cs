@@ -166,7 +166,7 @@ namespace HoTuanPhuoc.Controllers
 
             return View(lstGioHang);
         }
-
+        // test 12324123124
         [HttpPost]
         public ActionResult DatHang(FormCollection f)
         {
