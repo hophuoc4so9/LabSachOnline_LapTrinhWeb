@@ -53,9 +53,18 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -137,6 +146,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HoTuanPhuocController.cs" />
     <Compile Include="Controllers\IMomoService.cs" />
+    <Compile Include="Controllers\HoTuanPhuocSearchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +190,7 @@
     <Compile Include="Models\NHAXUATBAN.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportInfo.cs" />
     <Compile Include="Models\SACH.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -208,6 +219,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -336,6 +348,13 @@
     <Content Include="Views\Shared\GioHangPartial.cshtml" />
     <Content Include="Views\GioHang\DatHang.cshtml" />
     <Content Include="Views\GioHang\XacNhanDonHang.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\Search.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\SearchTheoDanhMuc.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\Group.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\ThongKe.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\SearchCoPhanTrang.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\SearchCoPhanTrangTuyChon.cshtml" />
+    <Content Include="Views\HoTuanPhuocSearch\SearchPhanTrangSapXep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
