@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HoTuanPhuoc.Models.SACH>
+﻿@using HoTuanPhuoc.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<SACH>
 
 @{
     ViewBag.Title = "sachtheochude";
@@ -29,12 +31,24 @@
     }
 
 </div>
-
+@if (Model != null && Model.Count() > 0)
+{
+    <div> Trang @(Model.PageNumber<=0 ? 0 : Model.PageNumber) / @Model.PageCount</div>
+    <div class="Menutrang">
+        @Html.PagedListPager(Model, page => Url.Action("sachtheochude", new { page = page }))
+    </div>
+}
 <style>
     .book-thumbnail {
         height: 500px; /* Set a fixed height for thumbnails */
         display: flex;
         flex-direction: column; /* Ensure items stack vertically */
         justify-content: space-between; /* Space out items evenly */
+    }
+</style>
+<style>
+    .Menutrang {
+        display: inline;
+        text-align: center;
     }
 </style>

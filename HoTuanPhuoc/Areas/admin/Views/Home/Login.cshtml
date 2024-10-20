@@ -1,0 +1,88 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "admin";
+}
+
+<div>
+    <form action="/Admin/Home/Login" method="post" class="box login">
+        <fieldset class="boxBody">
+            <h3 style="text-align:center;font-weight:bold">LOGIN ADMIN</h3>
+            <label>Username</label>
+            <input type="text" tabindex="1" name="UserName" placeholder="Type your username" required />
+            <label><a href="#" class="rLink" tabindex="5">Forget your password?</a>Password</label>
+            <input type="password" tabindex="2" name="Password" placeholder="Type your password" required />
+            <p style="font-style:italic; color:red; margin:8px;">@ViewBag.ThongBao</p>
+        </fieldset>
+        <footer>
+            <label><input type="checkbox" tabindex="3" />Keep me logged in</label>
+            <input type="submit" class="btnLogin" value="Login" tabindex="4" />
+        </footer>
+    </form>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</div>
+<style>
+    /* ~/Content/Admin/css/login.css */
+    .box.login {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .boxBody {
+        margin-bottom: 20px;
+    }
+
+        .boxBody h3 {
+            margin-bottom: 20px;
+        }
+
+        .boxBody label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .boxBody input[type="text"],
+        .boxBody input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .boxBody .rLink {
+            float: right;
+            font-size: 12px;
+        }
+
+    footer {
+        text-align: center;
+    }
+
+        footer label {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        footer .btnLogin {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            footer .btnLogin:hover {
+                background-color: #0056b3;
+            }
+
+</style>

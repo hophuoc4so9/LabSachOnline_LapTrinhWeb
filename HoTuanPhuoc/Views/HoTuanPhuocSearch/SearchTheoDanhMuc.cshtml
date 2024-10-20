@@ -1,0 +1,104 @@
+﻿@using HoTuanPhuoc.Models
+@model IEnumerable<HoTuanPhuoc.Models.SACH>
+
+@{
+    ViewBag.Title = "SearchTheoDanhMuc";
+    Layout = "~/Views/Shared/LayoutUser.cshtml";
+    int index = 0;
+}
+<style>
+    .macd {
+        width: 200px;
+    }
+</style>
+<h2>SearchTheoDanhMuc</h2>
+@using (Html.BeginForm("SearchTheoDanhMuc", "HoTuanPhuocSearch", FormMethod.Get))
+{
+    <p>
+        Chủ đề:
+        @Html.DropDownList("maCD", null, htmlAttributes: new { @class = "macd" })
+        <input type="text" name="strSearch" value="@ViewBag.Search" placeholder="Nhập sản phẩm cần tìm...." size="100" />
+        <input type="submit" value="Tìm kiếm" />
+    </p>
+}
+
+@if (Model != null)
+{
+    if (Model.Count() > 0)
+    {
+        <h2>
+            KẾT QUẢ TÌM với từ khóa @ViewBag.Search có @Model.Count() sách
+        </h2>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TenSach)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AnhBia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NgayCapNhat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SoLuongBan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GiaBan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CHUDE.TenChuDe)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NHAXUATBAN.TenNXB)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                index++;
+                <tr>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenSach)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnhBia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NgayCapNhat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoLuongBan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiaBan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CHUDE.TenChuDe)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NHAXUATBAN.TenNXB)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("BookDetail", "HoTuanPhuoc", new { id = item.MaSach })">Chi tiết</a>
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <div>Không có kết quả nào có từ khóa @ViewBag.Search </div>
+    }
+
+
+}
+
