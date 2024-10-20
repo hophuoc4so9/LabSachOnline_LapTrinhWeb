@@ -271,7 +271,8 @@ namespace HoTuanPhuoc.Controllers
             {
                 Body += $@"
         <tr>
-            <td>{@item.iMaSach}</td>
+            <td>{@item.sTenSach}</td>
+            
             <td>{@item.iSoLuong}</td>
             <td>{string.Format("{0:#,##0,0}", @item.dThanhTien)}</td>
         </tr>";
@@ -290,7 +291,7 @@ namespace HoTuanPhuoc.Controllers
 
             var mail = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "qupv gfrx jqwi zrqv"),
+                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "suje ugwx ynyb ctjt"),
                 EnableSsl = true
             };
            

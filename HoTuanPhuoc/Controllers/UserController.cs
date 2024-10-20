@@ -178,7 +178,7 @@ namespace HoTuanPhuoc.Controllers
             // Cấu hình thông tin Gmail
             var mail = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "hypj elbb ncoc rfnj"),
+                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "yjrf goqc ufaq gurk"),
                 EnableSsl = true
             };
 

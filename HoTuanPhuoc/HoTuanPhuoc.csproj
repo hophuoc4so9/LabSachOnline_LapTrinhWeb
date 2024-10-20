@@ -139,6 +139,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="Areas\admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\ConfigurationHelper.cs" />
     <Compile Include="Controllers\FileAndMailController.cs" />
     <Compile Include="Areas\admin\Controllers\NhaXuatBanController.cs" />
@@ -303,6 +304,8 @@
     <Content Include="Views\FileAndMail\Index.cshtml" />
     <Content Include="Views\FileAndMail\SendMail.cshtml" />
     <Content Include="appsetting.json" />
+    <Content Include="Areas\admin\Views\Home\Login.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\_LayoutAdmin.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -359,7 +362,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Data\" />
-    <Folder Include="Areas\admin\Views\Shared\" />
     <Folder Include="UploadFile\" />
     <Folder Include="Views\IMomoService\" />
   </ItemGroup>

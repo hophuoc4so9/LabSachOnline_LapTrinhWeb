@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using HoTuanPhuoc.Models;
+using PagedList;
 namespace HoTuanPhuoc.Controllers
 {
     public class HoTuanPhuocController : Controller
     {
         // GET: HoTuanPhuoc
         
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(LaySachMoi(6));
-        }
-        public List<SACH> LaySachMoi(int count)
-        {
+            int iSize = 6;
+            int iPageNumber = page ?? 1;
             SachOnlineEntities db = new SachOnlineEntities();
-            List<SACH> kq= db.SACHes.OrderByDescending(a=>a.NgayCapNhat).Take(count).ToList();
-            return kq;
+            List<SACH> kq = db.SACHes.OrderByDescending(a => a.NgayCapNhat).ToList();
+            return View(kq.ToPagedList(iPageNumber, iSize));
         }
+       
         public ActionResult _PartialLogin()
         {
             return PartialView("_PartialLogin");
@@ -50,25 +51,31 @@ namespace HoTuanPhuoc.Controllers
         {
             SachOnlineEntities db = new SachOnlineEntities();
             List<SACH> kq = db.SACHes.OrderByDescending(a => a.SoLuongBan).Take(6).ToList();
+            
             return PartialView(kq);
+
         }
-        public ActionResult sachtheochude()
+        public ActionResult sachtheochude(int? page)
         {
             int id = int.Parse(Request["id"]);
             SachOnlineEntities db = new SachOnlineEntities();
             List<SACH> Model = db.SACHes.Where(item => item.MaCD == id).ToList();
+            int iSize = 6;
+            int iPageNumber = page ?? 1;
             string tenChuDeSach = db.CHUDEs.Where(item => item.MaCD == id).FirstOrDefault().TenChuDe;
             ViewBag.tenChuDeSach = tenChuDeSach;
-            return View(Model);
+            return View(Model.ToPagedList(iPageNumber, iSize));
         }
-        public ActionResult sachtheonhaxuatban()
+        public ActionResult sachtheonhaxuatban(int? page)
         {
             int id = int.Parse(Request["id"]);
             SachOnlineEntities db = new SachOnlineEntities();
             List<SACH> Model = db.SACHes.Where(item => item.MaNXB == id).ToList();
+            int iSize = 6;
+            int iPageNumber = page ?? 1;
             string tenNXB = db.NHAXUATBANs.Where(item => item.MaNXB == id).FirstOrDefault().TenNXB;
             ViewBag.tenNXB = tenNXB;
-            return View(Model);
+            return View(Model.ToPagedList(iPageNumber, iSize));
         }
         public ActionResult BookDetail(int id)
         {
