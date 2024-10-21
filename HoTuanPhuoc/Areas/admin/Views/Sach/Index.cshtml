@@ -1,0 +1,119 @@
+﻿@helper Truncate(string s, int length)
+{
+    if (s.Length < length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}
+@using HoTuanPhuoc.Models;
+@using PagedList.Mvc;
+@model PagedList.PagedList<SACH>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align: center"> Quản lý thông tin sách </h2>
+<p>@Html.ActionLink("Thêm mới", "Create")</p>
+@if (Model != null)
+{
+    if (Model.Count() > 0)
+    {
+       
+        <table class="table">
+            <tr>
+
+                <th style="width:140px">
+                    Tên sách
+                </th>
+                <th style="width:200px">
+                    Mô tả
+                </th>
+                <th style="width:80px">
+                    Ảnh bìa
+                </th>
+                <th style="width:100px">
+                    Ngày cập nhật
+                </th>
+                <th style="width:80px">
+                    Số lượng
+                </th>
+                <th style="width:80px">
+                    Giá bán
+                </th>
+                <th style="width:100px">
+                    Tên chủ đề
+                </th>
+                <th style="width:100px">
+                    Tên nhà xuất bản
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                
+                <tr>
+                    
+                    <td>
+                      
+                        @Truncate(item.TenSach,50)
+                    </td>
+                    <td>
+                        @Truncate(item.MoTa,70)
+                    </td>
+                    <td>
+                        <img src="~/Images/@item.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook " style="width:50px"/>
+                    </td>
+                    <td>
+                        @Html.FormatValue(item.NgayCapNhat,"{0:dd/MM/yyyy}")
+                    </td>
+                    <td>
+                        @item.SoLuongBan
+                    </td>
+                    <td>
+                       
+                        @Html.FormatValue(item.GiaBan,"{0:#,##0}")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CHUDE.TenChuDe)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NHAXUATBAN.TenNXB)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Sach", new { id = item.MaSach })"
+                           class="btn-warning btn">Sửa</a>
+                        <a href="@Url.Action("Details", "Sach", new { id = item.MaSach })"
+                           class="btn-primary btn">Chi tiết</a>
+                        <a href="@Url.Action("Delete", "Sach", new { id = item.MaSach })"
+                           class="btn btn-danger">Xóa</a>
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div> Trang @(Model.PageNumber<=0 ? 0 : Model.PageNumber) / @Model.PageCount</div>
+        <div class="Menutrang">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, strSearch = ViewBag.Search }))
+        </div>
+    }
+    else
+    {
+        
+
+    }
+
+}
+<style>
+    .Menutrang {
+        display: inline;
+        text-align: center;
+    }
+</style>
