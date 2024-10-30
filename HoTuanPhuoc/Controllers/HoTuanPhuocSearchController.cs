@@ -1,18 +1,15 @@
 ﻿using HoTuanPhuoc.Models;
 using PagedList;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using System.Linq.Dynamic;
-using System.Linq.Expressions;
+using System.Web.Mvc;
 namespace HoTuanPhuoc.Controllers
 {
     public class HoTuanPhuocSearchController : Controller
     {
         // GET: Search
-        SachOnlineEntities db=new SachOnlineEntities();
+        SachOnlineEntities db = new SachOnlineEntities();
         public ActionResult Index()
         {
             return View();
@@ -37,7 +34,7 @@ namespace HoTuanPhuoc.Controllers
             }
             return View();
         }
-        public ActionResult SearchCoPhanTrang(int? page,string strSearch)
+        public ActionResult SearchCoPhanTrang(int? page, string strSearch)
         {
             ViewBag.Search = strSearch;
             if (!string.IsNullOrEmpty(strSearch))
@@ -54,19 +51,19 @@ namespace HoTuanPhuoc.Controllers
                     || c.NHAXUATBAN.TenNXB.Contains(strSearch)).ToList();
 
                 kq = kq.OrderBy(c => c.SoLuongBan).ThenByDescending(c => c.NgayCapNhat).ToList();
-                return View(kq.ToPagedList(iPageNumber,iSize));
+                return View(kq.ToPagedList(iPageNumber, iSize));
             }
             return View();
         }
-        public ActionResult SearchCoPhanTrangTuyChon(int? size,int? page, string strSearch)
+        public ActionResult SearchCoPhanTrangTuyChon(int? size, int? page, string strSearch)
         {
-            
+
 
             ViewBag.Search = strSearch;
             ViewBag.size = size ?? 5;
             if (!string.IsNullOrEmpty(strSearch))
             {
-                
+
                 int iPageNumber = page ?? 1;
                 int parsedMaCD;
                 bool isParsed = int.TryParse(strSearch, out parsedMaCD);
@@ -78,23 +75,23 @@ namespace HoTuanPhuoc.Controllers
                     || c.NHAXUATBAN.TenNXB.Contains(strSearch)).ToList();
 
                 kq = kq.OrderBy(c => c.SoLuongBan).ThenByDescending(c => c.NgayCapNhat).ToList();
-                return View(kq.ToPagedList(iPageNumber,size ?? 5));
+                return View(kq.ToPagedList(iPageNumber, size ?? 5));
             }
             return View();
         }
-        public ActionResult SearchTheoDanhMuc(string strSearch,int maCD = 0)
+        public ActionResult SearchTheoDanhMuc(string strSearch, int maCD = 0)
         {
             ViewBag.Search = strSearch;
             List<SACH> kq = db.SACHes.ToList();
 
             if (!string.IsNullOrEmpty(strSearch))
             {
-                strSearch=strSearch.ToLower();
-                kq=kq.Where(c=>c.TenSach.ToLower().Contains(strSearch)).ToList();
+                strSearch = strSearch.ToLower();
+                kq = kq.Where(c => c.TenSach.ToLower().Contains(strSearch)).ToList();
             }
-            if(maCD != 0)
+            if (maCD != 0)
             {
-                kq=kq.Where(b=>b.CHUDE.MaCD == maCD).ToList();  
+                kq = kq.Where(b => b.CHUDE.MaCD == maCD).ToList();
 
             }
             ViewBag.MaCD = new SelectList(db.CHUDEs, "MaCD", "TenChuDe");
@@ -103,9 +100,9 @@ namespace HoTuanPhuoc.Controllers
         }
         public ActionResult Group()
         {
-       
-            var kq = db.SACHes.GroupBy(s=>s.MaCD).ToList();
-            
+
+            var kq = db.SACHes.GroupBy(s => s.MaCD).ToList();
+
             return View(kq);
         }
         public ActionResult ThongKe()
@@ -135,7 +132,7 @@ namespace HoTuanPhuoc.Controllers
 
             return View(kq);
         }
-        public  ActionResult SearchPhanTrangSapXep(int? page,string sortProperty,string sortOrder="", string strSearch=null)
+        public ActionResult SearchPhanTrangSapXep(int? page, string sortProperty, string sortOrder = "", string strSearch = null)
         {
             ViewBag.Search = strSearch;
             if (!string.IsNullOrEmpty(strSearch))
@@ -143,7 +140,7 @@ namespace HoTuanPhuoc.Controllers
                 int iSize = 3;
                 int iPageNumber = page ?? 1;
                 int parsedMaCD;
-               
+
                 bool isParsed = int.TryParse(strSearch, out parsedMaCD);
 
                 List<SACH> kq = db.SACHes.Where(c => (isParsed && c.MaCD == parsedMaCD)
@@ -166,8 +163,8 @@ namespace HoTuanPhuoc.Controllers
                     ViewBag.SortOrder = "desc";
 
                 }
-                if(string.IsNullOrEmpty(sortProperty)) 
-                    {
+                if (string.IsNullOrEmpty(sortProperty))
+                {
                     sortProperty = "TenSach";
                 }
                 ViewBag.SortProperty = sortProperty;

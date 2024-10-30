@@ -36,7 +36,10 @@
                     </li>
                     <li><a href="@Url.Action("Index","KhachHang")">QUẢN LÝ KHÁCH | HÀNG</a> </li>
                     </li>
-                    <li><a href="@Url.Action("Index","DonHang")">QUẢN LÝ ĐƠN HÀNG</a>
+                    <li><a href="@Url.Action("Index","DonHang")">QUẢN LÝ ĐƠN HÀNG</a> </li>
+                    <li>
+                        @Html.Action("_PartialLogin", "HoTuanPhuoc", new { area = "" })
+                    </li>
                 </ul>
             </div>
         </div>
@@ -51,3 +54,4 @@
     </footer>
 </body>
 </html>
+@RenderSection("script", required: false)

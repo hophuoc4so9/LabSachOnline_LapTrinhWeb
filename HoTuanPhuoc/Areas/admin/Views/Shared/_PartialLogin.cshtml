@@ -1,0 +1,29 @@
+﻿
+@using HoTuanPhuoc.Models;
+@if (Session["Admin"] != null)
+{
+
+    ADMIN kh = (ADMIN)Session["Admin"];
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+            Xin chào: @kh.HoTen <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="@Url.Action("ThongTinCanhan", "Home")"><span class="glyphicon glyphicon-user"></span> Thông tin cá nhân</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="@Url.Action("DangXuat", "Home")"><span class="glyphicon glyphicon-log-out"></span> Đăng xuất</a></li>
+
+        </ul>
+    </li>
+}
+else
+{
+   
+
+    <li><a href="@Url.Action("DangKy", "Home")"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="@Url.Action("DangNhap", "Home")"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+
+   
+}

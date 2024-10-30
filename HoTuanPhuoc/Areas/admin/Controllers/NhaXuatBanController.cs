@@ -1,8 +1,6 @@
 ﻿using HoTuanPhuoc.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
@@ -13,16 +11,16 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         // GET: admin/NhaXuatBan
         public ActionResult Index()
         {
-      
-            List < NHAXUATBAN >  model= db.NHAXUATBANs.ToList();
+
+            List<NHAXUATBAN> model = db.NHAXUATBANs.ToList();
             return View(model);
         }
         public ActionResult ChiTietNhaXuatBan()
         {
             int id = int.Parse(Request["id"]);
-         
-            NHAXUATBAN model = db.NHAXUATBANs.Where( c=> c.MaNXB == id).FirstOrDefault();
-            
+
+            NHAXUATBAN model = db.NHAXUATBANs.Where(c => c.MaNXB == id).FirstOrDefault();
+
             return View(model);
         }
         [HttpGet]
@@ -53,13 +51,13 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         public ActionResult ThemMoiNhaXuatBan()
         {
             NHAXUATBAN model = new NHAXUATBAN();
-           
+
             return View(model);
         }
         [HttpPost]
         public ActionResult ThemMoiNhaXuatBan(NHAXUATBAN model)
         {
-         
+
             db.NHAXUATBANs.Add(model);
             db.SaveChanges();
             return RedirectToAction("Index");

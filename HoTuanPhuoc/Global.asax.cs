@@ -1,13 +1,8 @@
-﻿using HoTuanPhuoc.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+﻿using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Services.Description;
 
 namespace HoTuanPhuoc
 {
@@ -28,7 +23,7 @@ namespace HoTuanPhuoc
 
 
         }
-         void Session_Start(object sender,EventArgs e)
+        void Session_Start(object sender, EventArgs e)
         {
             Application.Lock();
             Application["Online"] = int.Parse(Application["Online"].ToString()) + 1;

@@ -8,14 +8,7 @@
 	 */
 	public override bool CheckAuthentication()
 	{
-		// WARNING : DO NOT simply return "true". By doing so, you are allowing
-		// "anyone" to upload and list the files in your server. You must implement
-		// some kind of session validation here. Even something very simple as...
-		//
-		//		return ( Session[ "IsAuthorized" ] != null && (bool)Session[ "IsAuthorized" ] == true );
-		//
-		// ... where Session[ "IsAuthorized" ] is set to "true" as soon as the
-		// user logs on your system.
+
 
 		return true;
 	}
@@ -25,17 +18,12 @@
 	 */
 	public override void SetConfig()
 	{
-		// Paste your license name and key here. If left blank, CKFinder will
-		// be fully functional, in Demo Mode.
+
 		LicenseName = "";
 		LicenseKey = "";
-
-		// The base URL used to reach files in CKFinder through the browser.
 		BaseUrl = "/Uploads/";
 
-		// The phisical directory in the server where the file will end up. If
-		// blank, CKFinder attempts to resolve BaseUrl.
-		BaseDir = HttpContext.Current.Server.MapPath("~/Uploads/");
+		BaseDir = "~/Uploads/";
 
 		// Optional: enable extra plugins (remember to copy .dll files first).
 		Plugins = new string[] {

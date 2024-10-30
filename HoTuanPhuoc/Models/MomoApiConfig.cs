@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace HoTuanPhuoc.Models
+﻿namespace HoTuanPhuoc.Models
 {
     public class MomoApiConfig
     {

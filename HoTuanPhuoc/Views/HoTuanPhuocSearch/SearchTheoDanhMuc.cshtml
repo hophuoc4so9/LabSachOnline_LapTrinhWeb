@@ -34,9 +34,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.TenSach)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MoTa)
-                </th>
+               
                 <th>
                     @Html.DisplayNameFor(model => model.AnhBia)
                 </th>
@@ -62,13 +60,13 @@
             {
                 index++;
                 <tr>
-                   
+
                     <td>
                         @Html.DisplayFor(modelItem => item.TenSach)
                     </td>
-
+                   
                     <td>
-                        @Html.DisplayFor(modelItem => item.AnhBia)
+                        <img src="~/Images/@item.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook " />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.NgayCapNhat)

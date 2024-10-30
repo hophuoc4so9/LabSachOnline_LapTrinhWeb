@@ -2,17 +2,17 @@
 
 namespace HoTuanPhuoc.Areas.admin
 {
-    public class adminAreaRegistration : AreaRegistration 
+    public class adminAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "admin";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "admin_default",
