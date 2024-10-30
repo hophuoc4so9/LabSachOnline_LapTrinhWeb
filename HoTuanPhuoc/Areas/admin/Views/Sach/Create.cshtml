@@ -30,15 +30,17 @@
             <div class="col-md-10">
                 <textarea name="sMoTa" id="mota">@ViewBag.MoTa </textarea>
                 <script src="~/ckeditor/ckeditor.js"></script>
-        <script src="~/ckfinder/ckfinder.js"></script>
-        <script>
-            CKEDITOR.replace("mota", {
-                customConfig: '/ckeditor/config.js',
-                extraAllowedContent: 'span',
+                <script src="~/ckfinder/ckfinder.js"></script>
 
-            });
-        </script>
-               
+                <script>
+                    CKEDITOR.replace("mota", {
+                        extraAllowedContent: 'span',
+                        customConfig: '/ckeditor/config.js',
+                      
+                    });
+                </script>
+
+
                 @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
             </div>
         </div>

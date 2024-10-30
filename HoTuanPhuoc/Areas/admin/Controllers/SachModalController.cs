@@ -3,7 +3,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Drawing; // Add this for image processing
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,11 +13,12 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
 {
     public class SachModalController : Controller
     {
+        private readonly SachOnlineEntities db = new SachOnlineEntities();
+
         public ActionResult Index()
         {
             return View();
         }
-        private readonly SachOnlineEntities db = new SachOnlineEntities();
 
         // GET: /Admin/SachModal/List
         public JsonResult List()
@@ -72,8 +73,10 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                 book.GiaBan
             }, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
-        public JsonResult Add(SACH book, HttpPostedFileBase image, int SoLuongBan, decimal GiaBan)
+        [ValidateAntiForgeryToken]
+        public JsonResult Add(SACH book, HttpPostedFileBase image, int soLuongBan, decimal giaBan)
         {
             try
             {
@@ -88,12 +91,12 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
 
                     string filePath = Path.Combine(uploadPath, fileName);
                     image.SaveAs(filePath);
-                    book.AnhBia = fileName; // Set the image filename to the book
+                    book.AnhBia = fileName;
                 }
 
                 book.NgayCapNhat = DateTime.Now;
-                book.SoLuongBan = SoLuongBan;
-                book.GiaBan = GiaBan;
+                book.SoLuongBan = soLuongBan;
+                book.GiaBan = giaBan;
 
                 db.SACHes.Add(book);
                 db.SaveChanges();
@@ -102,14 +105,13 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception message for debugging
                 System.Diagnostics.Debug.WriteLine("Error in Add method: " + ex.Message);
                 return Json(new { success = false, message = ex.Message });
             }
         }
 
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Update(SACH book, HttpPostedFileBase image)
         {
             try
@@ -131,14 +133,14 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
 
                     string filePath = Path.Combine(uploadPath, fileName);
                     image.SaveAs(filePath);
-                    existingBook.AnhBia = fileName; // Update the image filename
+                    existingBook.AnhBia = fileName;
                 }
 
                 existingBook.TenSach = book.TenSach;
                 existingBook.MoTa = book.MoTa;
                 existingBook.SoLuongBan = book.SoLuongBan;
                 existingBook.GiaBan = book.GiaBan;
-                existingBook.NgayCapNhat = DateTime.Now; // Update timestamp
+                existingBook.NgayCapNhat = DateTime.Now;
 
                 db.SaveChanges();
 
@@ -150,8 +152,8 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             }
         }
 
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Delete(int id)
         {
             try
@@ -199,5 +201,4 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             return Json(new { code = 200, dsNXB, msg = "Lấy danh sách nhà xuất bản thành công" }, JsonRequestBehavior.AllowGet);
         }
     }
-
 }

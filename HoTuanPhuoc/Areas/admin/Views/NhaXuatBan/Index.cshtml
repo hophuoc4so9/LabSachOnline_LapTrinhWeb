@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<HoTuanPhuoc.Models.NHAXUATBAN>
 
+
 @{
-    ViewBag.Title = "Index";
-
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-
 <h2>Index</h2>
 
 <p>
@@ -27,28 +27,29 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaNXB)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TenNXB)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiaChi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DienThoai)
-        </td>
-        <td>
-            @Html.ActionLink("Sửa", "SuaNXB", new { id = item.MaNXB }) 
-            <a href="~/admin/NhaXuatBan/ChiTietNhaXuatBan?id=@item.MaNXB">
-              Xem  chi tiết
-            </a>
-            @Html.ActionLink("Xóa", "XoaNXB", new { id = item.MaNXB })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNXB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenNXB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DienThoai)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "SuaNXB", new { id = item.MaNXB })
+                <a href="~/admin/NhaXuatBan/ChiTietNhaXuatBan?id=@item.MaNXB">
+                    Xem  chi tiết
+                </a>
+                @Html.ActionLink("Xóa", "XoaNXB", new { id = item.MaNXB })
+            </td>
+        </tr>
+    }
 
 </table>

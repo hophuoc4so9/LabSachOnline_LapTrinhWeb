@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group">
                         <label for="fileAnhBia">Ảnh bìa</label>
-                        <input type="file" class="form-control-file" id="fileAnhBia" />
+                        <input type="file" class="form-control-file" id="fileAnhBia" accept="image/*" />
                     </div>
                     <div class="form-group">
                         <label for="txtSoLuongBan">Số lượng</label>
@@ -107,11 +107,11 @@
                             $('#bookModal').modal('hide');
                             loadBooks();
                         } else {
-                            alert('Error saving book');
+                            alert('Error saving book: ' + response.message);
                         }
                     },
-                    error: function () {
-                        alert('Error saving book');
+                    error: function (xhr, status, error) {
+                        alert('Error saving book: ' + error);
                     }
                 });
             });
@@ -128,18 +128,18 @@
                     $.each(data.books, function (index, book) {
                         let row = `
 <tr>
-            <td>${book.TenSach}</td>
-            <td>${book.MoTa}</td>
-            <td><img src="/Images/${book.AnhBia}" alt="Ảnh bìa" style="width: 50px;"></td>
-            <td>${book.NgayCapNhat}</td>
-            <td>${book.SoLuongBan}</td>
-            <td>${book.GiaBan}</td>
-            <td>${book.TenChuDe}</td>
-            <td>${book.TenNXB}</td>
-            <td>
-                <button class="btn btn-warning edit-book" data-id="${book.MaSach}">Sửa</button>
-                <button class="btn btn-danger delete-book" data-id="${book.MaSach}">Xóa</button>
-            </td>
+                <td>${book.TenSach}</td>
+                <td>${book.MoTa}</td>
+                <td><img src="/Images/${book.AnhBia}" alt="Ảnh bìa" style="width: 50px;"></td>
+                <td>${book.NgayCapNhat}</td>
+                <td>${book.SoLuongBan}</td>
+                <td>${book.GiaBan}</td>
+                <td>${book.TenChuDe}</td>
+                <td>${book.TenNXB}</td>
+                <td>
+                    <button class="btn btn-warning edit-book" data-id="${book.MaSach}">Sửa</button>
+                    <button class="btn btn-danger delete-book" data-id="${book.MaSach}">Xóa</button>
+                </td>
 </tr>
 `;
                         bookTableBody.append(row);
@@ -194,11 +194,11 @@
                         if (response.success) {
                             loadBooks();
                         } else {
-                            alert('Error deleting book');
+                            alert('Error deleting book: ' + response.message);
                         }
                     },
-                    error: function () {
-                        alert('Error deleting book');
+                    error: function (xhr, status, error) {
+                        alert('Error deleting book: ' + error);
                     }
                 });
             }
@@ -238,35 +238,4 @@
             });
         }
     </script>
-    <script>
-        $(document).ready(function () {
-            $('#btnAddBook').click(function () {
-                var formData = new FormData();
-                formData.append('TenSach', $('#TenSach').val());
-                formData.append('MoTa', $('#MoTa').val());
-                formData.append('SoLuongBan', $('#SoLuongBan').val());
-                formData.append('GiaBan', $('#GiaBan').val());
-                formData.append('image', $('#image')[0].files[0]);
-
-                $.ajax({
-                    url: '/Admin/SachModal/Add',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        if (response.success) {
-                            alert('Book added successfully!');
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        alert('An error occurred: ' + error);
-                    }
-                });
-            });
-        });
-    </script>
-
 }
