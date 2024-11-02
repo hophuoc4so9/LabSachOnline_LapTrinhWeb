@@ -1,16 +1,9 @@
 ﻿using HoTuanPhuoc.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Net.Mail;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Controllers
@@ -183,11 +176,11 @@ namespace HoTuanPhuoc.Controllers
             SendMail(kh.Email);
             ddh.NgayGiao = DateTime.Parse(NgayGiao);
             ddh.DaThanhToan = false;
-           
+
             db.DONDATHANGs.Add(ddh);
             db.SaveChanges();
             string phuongthucthanhtoan = f["paymentMethod"];
-          
+
             // Thêm chi tiết đơn hàng
             foreach (var item in lstCart)
             {
@@ -202,15 +195,15 @@ namespace HoTuanPhuoc.Controllers
             }
 
             db.SaveChanges();
-            if (phuongthucthanhtoan=="momo")
+            if (phuongthucthanhtoan == "momo")
             {
 
-            }    
+            }
             else
             {
 
-            }    
-                Session["GioHang"] = null;
+            }
+            Session["GioHang"] = null;
 
             return RedirectToAction("XacNhanDonHang", "GioHang");
         }
@@ -294,14 +287,14 @@ namespace HoTuanPhuoc.Controllers
                 Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "suje ugwx ynyb ctjt"),
                 EnableSsl = true
             };
-           
+
             // Tạo email
             var message = new MailMessage
             {
                 From = new MailAddress("2224802010872@student.tdmu.edu.vn"), // Replace with your email
                 Subject = "Xác nhận đơn hàng",
                 Body = Body,
-            IsBodyHtml = true // Set to true if you want to format the body with HTML
+                IsBodyHtml = true // Set to true if you want to format the body with HTML
             };
 
             message.To.Add(new MailAddress(recipientEmail));

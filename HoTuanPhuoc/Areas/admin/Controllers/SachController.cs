@@ -2,11 +2,9 @@
 using PagedList;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 
@@ -154,13 +152,13 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         public ActionResult Edit(FormCollection f, HttpPostedFileBase fFileUpload)
         {
             int masach = int.Parse(f["MaSach"]);
-            var sach = db.SACHes.SingleOrDefault(n => n.MaSach == masach); 
-            ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe),"MaCD", "TenChuDe", sach.MaCD);
-            ViewBag.MaNXB = new SelectList(db.NHAXUATBANs.ToList().OrderBy(n =>n.TenNXB), "MaNXB", "TenNXB", sach.MaNXB);
+            var sach = db.SACHes.SingleOrDefault(n => n.MaSach == masach);
+            ViewBag.MaCD = new SelectList(db.CHUDEs.ToList().OrderBy(n => n.TenChuDe), "MaCD", "TenChuDe", sach.MaCD);
+            ViewBag.MaNXB = new SelectList(db.NHAXUATBANs.ToList().OrderBy(n => n.TenNXB), "MaNXB", "TenNXB", sach.MaNXB);
             if (ModelState.IsValid)
             {
                 if (fFileUpload != null)
-                    {
+                {
                     var sFileName = Path.GetFileName(fFileUpload.FileName);
                     var path = Path.Combine(Server.MapPath("~/Images"), sFileName); //Kiểm tra file đã tồn tại chưa
 
@@ -170,20 +168,20 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                     }
                     sach.AnhBia = sFileName;
                 }
- 
-            sach.TenSach = f["TenSach"];
+
+                sach.TenSach = f["TenSach"];
                 sach.MoTa = f["MoTa"];
-            sach.NgayCapNhat = Convert.ToDateTime(f["dNgayCapNhat"]);
+                sach.NgayCapNhat = Convert.ToDateTime(f["dNgayCapNhat"]);
                 sach.SoLuongBan = int.Parse(f["iSoLuong"]);
                 sach.GiaBan = decimal.Parse(f["mGiaBan"]);
                 sach.MaCD = int.Parse(f["MaCD"]);
                 sach.MaNXB = int.Parse(f["MaNXB"]);
                 db.SaveChanges();
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View(sach);
         }
 
- 
+
     }
 }

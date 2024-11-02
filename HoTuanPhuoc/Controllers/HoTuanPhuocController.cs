@@ -1,18 +1,15 @@
-﻿using System;
+﻿using HoTuanPhuoc.Models;
+using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
-using HoTuanPhuoc.Models;
-using PagedList;
 namespace HoTuanPhuoc.Controllers
 {
     public class HoTuanPhuocController : Controller
     {
         // GET: HoTuanPhuoc
-        
+
         public ActionResult Index(int? page)
         {
             int iSize = 6;
@@ -21,7 +18,7 @@ namespace HoTuanPhuoc.Controllers
             List<SACH> kq = db.SACHes.OrderByDescending(a => a.NgayCapNhat).ToList();
             return View(kq.ToPagedList(iPageNumber, iSize));
         }
-       
+
         public ActionResult _PartialLogin()
         {
             return PartialView("_PartialLogin");
@@ -34,7 +31,7 @@ namespace HoTuanPhuoc.Controllers
             return View(Model);
         }
         [ChildActionOnly]
-           public ActionResult PartialNav()
+        public ActionResult PartialNav()
         {
             return PartialView("_PartialNav");
         }
@@ -43,15 +40,15 @@ namespace HoTuanPhuoc.Controllers
         {
             SachOnlineEntities db = new SachOnlineEntities();
             List<CHUDE> Model = db.CHUDEs.ToList();
-          
-            return PartialView("_PartialChuDe",Model);
+
+            return PartialView("_PartialChuDe", Model);
         }
         [ChildActionOnly]
         public ActionResult _PartialSachBanNhieu()
         {
             SachOnlineEntities db = new SachOnlineEntities();
             List<SACH> kq = db.SACHes.OrderByDescending(a => a.SoLuongBan).Take(6).ToList();
-            
+
             return PartialView(kq);
 
         }
@@ -89,13 +86,13 @@ namespace HoTuanPhuoc.Controllers
         {
             SachOnlineEntities db = new SachOnlineEntities();
             List<NHAXUATBAN> Model = db.NHAXUATBANs.ToList();
-    
-            return PartialView( Model);
+
+            return PartialView(Model);
         }
         public ActionResult _PartialBinhLuan(int maSach)
         {
             SachOnlineEntities db = new SachOnlineEntities();
-            List<BinhLuan> Model = db.BinhLuans.Where(a=>a.MaSach== maSach).ToList();
+            List<BinhLuan> Model = db.BinhLuans.Where(a => a.MaSach == maSach).ToList();
             ViewBag.MaSach = maSach;
             return PartialView(Model);
         }
@@ -112,17 +109,17 @@ namespace HoTuanPhuoc.Controllers
         [HttpPost]
         public ActionResult ThemMoiBinhLuan(FormCollection collection, BinhLuan bl)
         {
-            var noidung= collection["NoiDung"]; 
-            if (String.IsNullOrEmpty(noidung) )
+            var noidung = collection["NoiDung"];
+            if (String.IsNullOrEmpty(noidung))
             {
                 ViewBag.ThongBao = "Nội dung không được rỗng";
                 return this.BookDetail(int.Parse(bl.MaSach.ToString()));
             }
-         
+
 
             bl.NgayTao = DateTime.Now;
-           bl.MaKH=Session["Taikhoan"] == null ? 1 : (Session["Taikhoan"] as KHACHHANG).MaKH;
-            bl.MaSach=collection["MaSach"] == null ? 1 : int.Parse(collection["MaSach"]);   
+            bl.MaKH = Session["Taikhoan"] == null ? 1 : (Session["Taikhoan"] as KHACHHANG).MaKH;
+            bl.MaSach = collection["MaSach"] == null ? 1 : int.Parse(collection["MaSach"]);
             SachOnlineEntities db = new SachOnlineEntities();
             db.BinhLuans.Add(bl);
             db.SaveChanges();

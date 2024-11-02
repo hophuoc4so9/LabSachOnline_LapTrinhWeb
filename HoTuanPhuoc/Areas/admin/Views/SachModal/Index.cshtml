@@ -1,0 +1,241 @@
+﻿@{
+    ViewBag.Title = "Quản lý thông tin sách";
+    Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 style="text-align: center">Quản lý thông tin sách</h2>
+<p>
+    <button class="btn btn-success" id="btnAddBook">
+        <i class="fa fa-plus" aria-hidden="true"></i> Thêm Sách
+    </button>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th style="width:140px">Tên sách</th>
+            <th style="width:200px">Mô tả</th>
+            <th style="width:80px">Ảnh bìa</th>
+            <th style="width:100px">Ngày cập nhật</th>
+            <th style="width:80px">Số lượng</th>
+            <th style="width:80px">Giá bán</th>
+            <th style="width:100px">Tên chủ đề</th>
+            <th style="width:100px">Tên nhà xuất bản</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="bookTableBody"></tbody>
+</table>
+
+<!-- Book Modal for Add/Edit -->
+<div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookModalLabel">Thêm Sách</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="bookForm" enctype="multipart/form-data">
+                    <input type="hidden" id="bookId" />
+                    <div class="form-group">
+                        <label for="txtTenSach">Tên sách</label>
+                        <input type="text" class="form-control" id="txtTenSach" placeholder="Tên sách" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtMoTa">Mô tả</label>
+                        <textarea class="form-control" id="txtMoTa" placeholder="Mô tả"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileAnhBia">Ảnh bìa</label>
+                        <input type="file" class="form-control-file" id="fileAnhBia" accept="image/*" />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtSoLuongBan">Số lượng</label>
+                        <input type="number" class="form-control" id="txtSoLuongBan" placeholder="Số lượng" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtGiaBan">Đơn giá</label>
+                        <input type="number" class="form-control" id="txtGiaBan" placeholder="Đơn giá" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="selectChuDe">Chủ đề</label>
+                        <select class="form-control" id="selectChuDe"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectNXB">Nhà xuất bản</label>
+                        <select class="form-control" id="selectNXB"></select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveBook">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script {
+    <script>
+        $(document).ready(function () {
+            loadBooks();
+            loadCategories();
+            loadPublishers();
+
+            $('#btnAddBook').click(function () {
+                $('#bookModalLabel').text('Thêm Sách');
+                $('#bookForm')[0].reset(); // Clear form
+                $('#bookId').val('');
+                $('#bookModal').modal('show');
+            });
+
+            $('#saveBook').click(function () {
+                let formData = new FormData($('#bookForm')[0]);
+                let url = $('#bookId').val() ? '/Admin/SachModal/Update' : '/Admin/SachModal/Add';
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.success) {
+                            $('#bookModal').modal('hide');
+                            loadBooks();
+                        } else {
+                            alert('Error saving book: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error saving book: ' + error);
+                    }
+                });
+            });
+        });
+
+        function loadBooks() {
+            $.ajax({
+                url: '/Admin/SachModal/List',
+                type: 'GET',
+                success: function (data) {
+                    let bookTableBody = $('#bookTableBody');
+                    bookTableBody.empty();
+
+                    $.each(data.books, function (index, book) {
+                        let row = `
+<tr>
+                <td>${book.TenSach}</td>
+                <td>${book.MoTa}</td>
+                <td><img src="/Images/${book.AnhBia}" alt="Ảnh bìa" style="width: 50px;"></td>
+                <td>${book.NgayCapNhat}</td>
+                <td>${book.SoLuongBan}</td>
+                <td>${book.GiaBan}</td>
+                <td>${book.TenChuDe}</td>
+                <td>${book.TenNXB}</td>
+                <td>
+                    <button class="btn btn-warning edit-book" data-id="${book.MaSach}">Sửa</button>
+                    <button class="btn btn-danger delete-book" data-id="${book.MaSach}">Xóa</button>
+                </td>
+</tr>
+`;
+                        bookTableBody.append(row);
+                    });
+
+                    $('.edit-book').click(function () {
+                        let id = $(this).data('id');
+                        editBook(id);
+                    });
+
+                    $('.delete-book').click(function () {
+                        let id = $(this).data('id');
+                        deleteBook(id);
+                    });
+                },
+                error: function () {
+                    alert('Error loading books');
+                }
+            });
+        }
+
+        function editBook(id) {
+            $.ajax({
+                url: '/Admin/SachModal/GetBook?id=' + id,
+                type: 'GET',
+                success: function (book) {
+                    if (book) {
+                        $('#bookModalLabel').text('Sửa Sách');
+                        $('#bookId').val(book.MaSach);
+                        $('#txtTenSach').val(book.TenSach);
+                        $('#txtMoTa').val(book.MoTa);
+                        $('#txtSoLuongBan').val(book.SoLuongBan);
+                        $('#txtGiaBan').val(book.GiaBan);
+                        $('#bookModal').modal('show');
+                    } else {
+                        alert('Book not found');
+                    }
+                },
+                error: function () {
+                    alert('Error loading book details');
+                }
+            });
+        }
+
+        function deleteBook(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sách này?')) {
+                $.ajax({
+                    url: '/Admin/SachModal/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            loadBooks();
+                        } else {
+                            alert('Error deleting book: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error deleting book: ' + error);
+                    }
+                });
+            }
+        }
+
+        function loadCategories() {
+            $.ajax({
+                url: '/Admin/SachModal/DsChuDe',
+                type: 'GET',
+                success: function (response) {
+                    let select = $('#selectChuDe');
+                    select.empty();
+                    $.each(response.dsCD, function (index, cd) {
+                        select.append(`<option value="${cd.MaCD}">${cd.TenCD}</option>`);
+                    });
+                },
+                error: function () {
+                    alert('Error loading categories');
+                }
+            });
+        }
+
+        function loadPublishers() {
+            $.ajax({
+                url: '/Admin/SachModal/DsNXB',
+                type: 'GET',
+                success: function (response) {
+                    let select = $('#selectNXB');
+                    select.empty();
+                    $.each(response.dsNXB, function (index, nxb) {
+                        select.append(`<option value="${nxb.MaNXB}">${nxb.TenNXB}</option>`);
+                    });
+                },
+                error: function () {
+                    alert('Error loading publishers');
+                }
+            });
+        }
+    </script>
+}

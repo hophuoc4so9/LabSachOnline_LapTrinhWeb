@@ -5,40 +5,54 @@
     Layout = "~/Areas/admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-
 <style type="text/css">
     .img {
         width: 200px;
         margin-bottom: 20px;
     }
+
+    .dl-horizontal dt {
+        width: 150px;
+        float: left;
+        clear: left;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 160px;
+    }
+
+    h2 {
+        text-align: center;
+    }
 </style>
-<h2 style="text-align:center">CHI TIẾT SÁCH</h2>
+
+<h2>CHI TIẾT SÁCH</h2>
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
             Tên sách:
-
         </dt>
         <dd>
             @Html.DisplayFor(model => model.TenSach)
         </dd>
 
         <dt>
-            Motá:
+            Mô tả:
         </dt>
         <dd>
-            @Html.Raw(@Model.MoTa.ToString().Replace("\n",
-            "</p><p>&nbsp&nbsp&nbsp&nbsp&nbsp"))
+            @Html.Raw(@Model.MoTa.ToString().Replace("\n", "</p><p>&nbsp&nbsp&nbsp&nbsp&nbsp"))
         </dd>
         <dt>
             Ảnh Bìa
         </dt>
         <dd>
-            <img class="img" src="~/Images/@Model.AnhBia" alt="Model.TenSach">
+            <img class="img" src="~/Images/@Model.AnhBia" alt="@Model.TenSach">
         </dd>
         <dt>
-            Ngày cập nhật:.
+            Ngày cập nhật:
         </dt>
         <dd>
             @Html.FormatValue(@Model.NgayCapNhat, "{0:dd/MM/yyyy}")
@@ -50,12 +64,13 @@
             @Html.DisplayFor(model => model.SoLuongBan)
         </dd>
         <dt>
+            Giá bán:
         </dt>
         <dd>
-            Html.FormatValue(@Model.GiaBan, "(0:#,##0)") VND
+            @Html.FormatValue(@Model.GiaBan, "{0:#,##0}") VND
         </dd>
         <dt>
-            Chủ đề
+            Chủ đề:
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CHUDE.TenChuDe)
