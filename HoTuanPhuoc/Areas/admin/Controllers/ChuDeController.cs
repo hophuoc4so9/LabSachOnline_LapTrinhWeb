@@ -1,13 +1,16 @@
 ﻿using HoTuanPhuoc.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class ChuDeController : Controller
+    public class ChuDeController : BaseAdminController
     {
         // GET: admin/ChuDe
         SachOnlineEntities db = new SachOnlineEntities();
@@ -16,25 +19,40 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             return View();
         }
         [HttpGet]
-
-        public JsonResult DsChuDe()
+        public JsonResult DsChuDe(int page = 1, int pageSize = 5, string search = "")
         {
             try
             {
                 var dsCD = (from cd in db.CHUDEs
+                            where cd.TenChuDe.Contains(search)
                             select new
                             {
                                 MaCD = cd.MaCD,
                                 TenCD = cd.TenChuDe
                             }).ToList();
-                return Json(new { code = 200, dsCD = dsCD, msg = "Lấy danh sách chủ đề thành công" }, JsonRequestBehavior.AllowGet);
+
+                var totalItems = dsCD.Count();
+                var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+                var paginatedDsCD = dsCD.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                return Json(new
+                {
+                    code = 200,
+                    dsCD = paginatedDsCD,
+                    totalItems = totalItems,
+                    totalPages = totalPages,
+                    currentPage = page,
+                    msg = "Lấy danh sách chủ đề thành công"
+                }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 return Json(new { code = 500, msg = "Lấy danh sách chủ đề thất bại" + ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
+
         [HttpGet]
         public JsonResult Detail(int maCD)
         {

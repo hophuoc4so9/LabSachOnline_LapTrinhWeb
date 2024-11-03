@@ -10,12 +10,15 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
 {
     public class HomeAdminController : Controller
     {
+       
+
         // GET: admin/Home
         SachOnlineEntities db = new SachOnlineEntities();
         public ActionResult Index()
         {
             return View();
         }
+        [HttpGet]
         public ActionResult DangNhap()
         {
             return View();
@@ -25,10 +28,11 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         {
             return PartialView();
         }
+       
         public ActionResult DangXuat()
         {
             Session["Admin"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("DangNhap", "HomeAdmin");
         }
         [HttpPost]
         public ActionResult DangNhap(FormCollection f)
@@ -37,12 +41,13 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             var sTenDN = f["UserName"];
             var sMatKhau = f["Password"];
             // Gán giá trị cho đối tượng được tạo mới (ad)
-            //n.MatKhau==GetMD5(sMatKhau) ||
-            ADMIN ad = db.ADMINs.SingleOrDefault(n => n.TenDN == sTenDN &&( n.MatKhau == sMatKhau ));
+            //
+            string hashedPassword = GetMD5(sMatKhau);
+            ADMIN ad = db.ADMINs.SingleOrDefault(n => n.TenDN == sTenDN &&(n.MatKhau == hashedPassword || n.MatKhau == sMatKhau ));
             if (ad != null)
             {
                 Session["Admin"] = ad;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Sach");
             }
             else
             {
@@ -70,9 +75,9 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                 try
                 {
                     //Gán giá trị cho đối tượng được tạo mới (kh)
-                   // string hashedPassword = GetMD5(kh.MatKhau);
+                    string hashedPassword = GetMD5(kh.MatKhau);
 
-                   // kh.MatKhau = hashedPassword;
+                    kh.MatKhau = hashedPassword;
                     db.ADMINs.Add(kh);
                     db.SaveChanges();
 

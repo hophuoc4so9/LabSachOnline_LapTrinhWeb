@@ -22,6 +22,7 @@
             <th style="width:100px">Tên chủ đề</th>
             <th style="width:100px">Tên nhà xuất bản</th>
             <th>Actions</th>
+        
         </tr>
     </thead>
     <tbody id="bookTableBody"></tbody>
@@ -129,7 +130,7 @@
                         let row = `
 <tr>
                 <td>${book.TenSach}</td>
-                <td>${book.MoTa}</td>
+                <td style="width:200px">${book.MoTa}</td>
                 <td><img src="/Images/${book.AnhBia}" alt="Ảnh bìa" style="width: 50px;"></td>
                 <td>${book.NgayCapNhat}</td>
                 <td>${book.SoLuongBan}</td>

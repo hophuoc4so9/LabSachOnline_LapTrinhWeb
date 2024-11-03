@@ -185,8 +185,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\admin\adminAreaRegistration.cs" />
+    <Compile Include="Areas\admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\admin\Controllers\ChuDeController.cs" />
     <Compile Include="Areas\admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\admin\Controllers\NhaXuatBanModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachController.cs" />
     <Compile Include="Controllers\ConfigurationHelper.cs" />
@@ -1348,6 +1350,7 @@
     <Content Include="ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Areas\admin\Views\HomeAdmin\DangKy.cshtml" />
+    <Content Include="Areas\admin\Views\NhaXuatBanModal\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1405,6 +1408,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Data\" />
+    <Folder Include="Areas\admin\Views\BaseAdmin\" />
     <Folder Include="UploadFile\" />
     <Folder Include="Uploads\images\" />
     <Folder Include="Views\IMomoService\" />

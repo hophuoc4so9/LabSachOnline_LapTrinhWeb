@@ -1,4 +1,5 @@
 ﻿using HoTuanPhuoc.Models;
+using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,30 @@ using System.Web.UI.WebControls;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class SachController : Controller
+    public class SachController : BaseAdminController
     {
         // GET: admin/Sach
         SachOnlineEntities db = new SachOnlineEntities();
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string strSearch)
         {
             int iSize = 7;
             int iPageNumber = page ?? 1;
+            ViewBag.Search = strSearch??"";
+            if (string.IsNullOrEmpty(strSearch))
+            {
+                List<SACH> kq = db.SACHes.OrderBy(a => a.MaSach).ToList();
+                return View(kq.ToPagedList(iPageNumber, iSize));
 
-            List<SACH> kq = db.SACHes.OrderBy(a => a.MaSach).ToList();
-            return View(kq.ToPagedList(iPageNumber, iSize));
+            }
+            else
+            {
+                List<SACH> kq = db.SACHes.Where(c => c.TenSach.Contains(strSearch)
+                    || c.MoTa.Contains(strSearch)
+                    || c.CHUDE.TenChuDe.Contains(strSearch)
+                    || c.NHAXUATBAN.TenNXB.Contains(strSearch)).OrderBy(a => a.MaSach).ToList();
+                return View(kq.ToPagedList(iPageNumber, iSize));
+
+            }
         }
         [HttpGet]
         public ActionResult Create()
@@ -66,7 +80,11 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                     sach.TenSach = f["sTenSach"];
                     sach.MoTa = f["sMoTa"];
                     sach.AnhBia = sFileName;
-                    sach.NgayCapNhat = Convert.ToDateTime(f["dNgayCapNhat"]);
+                    DateTime ngayCapNhat;
+                    if (DateTime.TryParse(f["dNgayCapNhat"], out ngayCapNhat))
+                    {
+                        sach.NgayCapNhat = ngayCapNhat;
+                    }
                     sach.SoLuongBan = int.Parse(f["iSoLuong"]);
                     sach.GiaBan = decimal.Parse(f["mGiaBan"]);
                     sach.MaCD = int.Parse(f["MaCD"]);
