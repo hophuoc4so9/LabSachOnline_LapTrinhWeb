@@ -1328,7 +1328,7 @@
     <Content Include="Views\FileAndMail\Index.cshtml" />
     <Content Include="Views\FileAndMail\SendMail.cshtml" />
     <Content Include="appsetting.json" />
-    <Content Include="Areas\admin\Views\HomeAdmin\Login.cshtml" />
+    <Content Include="Areas\admin\Views\HomeAdmin\DangNhap.cshtml" />
     <Content Include="Areas\admin\Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Areas\admin\Views\Sach\Index.cshtml" />
     <Content Include="Areas\admin\Views\Sach\Create.cshtml" />
@@ -1347,6 +1347,7 @@
     <Content Include="ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Areas\admin\Views\HomeAdmin\DangKy.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

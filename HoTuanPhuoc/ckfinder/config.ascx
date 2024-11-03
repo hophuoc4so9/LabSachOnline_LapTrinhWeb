@@ -8,14 +8,7 @@
 	 */
 	public override bool CheckAuthentication()
 	{
-		// WARNING : DO NOT simply return "true". By doing so, you are allowing
-		// "anyone" to upload and list the files in your server. You must implement
-		// some kind of session validation here. Even something very simple as...
-		//
-		//		return ( Session[ "IsAuthorized" ] != null && (bool)Session[ "IsAuthorized" ] == true );
-		//
-		// ... where Session[ "IsAuthorized" ] is set to "true" as soon as the
-		// user logs on your system.
+
 
 		return true;
 	}
@@ -58,8 +51,10 @@
 		// Thumbnail settings.
 		// "Url" is used to reach the thumbnails with the browser, while "Dir"
 		// points to the physical location of the thumbnail files in the server.
+
 		Thumbnails.Url = BaseUrl + "_thumbs/";
-		if ( BaseDir != "" ) {
+		if (BaseDir != "")
+		{
 			Thumbnails.Dir = BaseDir + "_thumbs/";
 		}
 		Thumbnails.Enabled = true;
