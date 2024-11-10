@@ -35,5 +35,7 @@ namespace HoTuanPhuoc.Models
         public virtual DbSet<TACGIA> TACGIAs { get; set; }
         public virtual DbSet<VIETSACH> VIETSACHes { get; set; }
         public virtual DbSet<BinhLuan> BinhLuans { get; set; }
+        public virtual DbSet<MENU> MENUs { get; set; }
+        public virtual DbSet<TRANGTIN> TRANGTINs { get; set; }
     }
 }

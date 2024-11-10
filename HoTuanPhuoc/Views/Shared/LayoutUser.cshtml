@@ -30,45 +30,46 @@
         .imgsachbannhieu {
             width: 100px;
         }
+        
     </style>
 
 
 </head>
 <body>
+ 
+        @Html.Action("PartialNav", "HoTuanPhuoc", new { area = "" })
+      
+        <div class="container">
+            @Html.Action("_PartialCarousel", "HoTuanPhuoc", new { area = "" })
 
-
-    @Html.Action("PartialNav", "HoTuanPhuoc", new { area = "" })
-    <div class="container">
-        @Html.Action("_PartialCarousel", "HoTuanPhuoc", new { area = "" })
-
-        <hr>
-    </div>
-    <!-- /.container-->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-
-                @Html.Action("PartialChuDe", "HoTuanPhuoc", new { area = "" })
-
-                <br>
-                @Html.Action("_PartialNhaXuatBan", "HoTuanPhuoc", new { area = "" })
-
-
-            </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-
-                @RenderBody()
-            </div>
             <hr>
         </div>
-    </div>
-    <!-- /.container-->
-    @RenderSection("sachbannhieu", required: false)
+        <!-- /.container-->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 
-    @RenderSection("BinhLuan", required: false)
-    <!-- /.container-->
+                    @Html.Action("PartialChuDe", "HoTuanPhuoc", new { area = "" })
 
-    @Html.Action("_PartialFooter", "HoTuanPhuoc", new { area = "" })
+                    <br>
+                    @Html.Action("_PartialNhaXuatBan", "HoTuanPhuoc", new { area = "" })
+
+
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+
+                    @RenderBody()
+                </div>
+                <hr>
+            </div>
+        </div>
+        <!-- /.container-->
+        @RenderSection("sachbannhieu", required: false)
+
+        @RenderSection("BinhLuan", required: false)
+        <!-- /.container-->
+
+        @Html.Action("_PartialFooter", "HoTuanPhuoc", new { area = "" })
 
 </body>
 </html>

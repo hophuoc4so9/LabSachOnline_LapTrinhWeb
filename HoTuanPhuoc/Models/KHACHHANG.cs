@@ -11,7 +11,7 @@ namespace HoTuanPhuoc.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class KHACHHANG
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,19 +22,19 @@ namespace HoTuanPhuoc.Models
         }
         [Key]
         [Required]
-      
+
         public int MaKH { get; set; }
-    
-        [Required(ErrorMessage ="Họ và tên không được để trống.")]
+
+        [Required(ErrorMessage = "Họ và tên không được để trống.")]
         public string HoTen { get; set; }
-        [MinLength(5,ErrorMessage ="Tên đăng nhập phải ít nhất 5 ký tự.")]
+        [MinLength(5, ErrorMessage = "Tên đăng nhập phải ít nhất 5 ký tự.")]
         [Required(ErrorMessage = "Tên đăng nhập không được để trống.")]
 
         public string TaiKhoan { get; set; }
         [Required(ErrorMessage = "Mật khẩu không được để trống.")]
         public string MatKhau { get; set; }
         [Required(ErrorMessage = "Mật khẩu nhập lại không được để trống.")]
-        [Compare("MatKhau", ErrorMessage= "Mật khẩu nhập lại phải trùng với mật khẩu")]
+        [Compare("MatKhau", ErrorMessage = "Mật khẩu nhập lại phải trùng với mật khẩu")]
         public string MatKhauNL { get; set; }
         [Required(ErrorMessage = "Email không được để trống.")]
         [EmailAddress(ErrorMessage = "Email không đúng định dạng.")]
@@ -49,7 +49,7 @@ namespace HoTuanPhuoc.Models
         public string DienThoai { get; set; }
         [Required(ErrorMessage = "Ngày sinh không được để trống.")]
         public Nullable<System.DateTime> NgaySinh { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DONDATHANG> DONDATHANGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

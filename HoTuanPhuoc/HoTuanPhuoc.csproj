@@ -191,6 +191,7 @@
     <Compile Include="Areas\admin\Controllers\NhaXuatBanModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachController.cs" />
+    <Compile Include="Areas\admin\Controllers\TrangTinController.cs" />
     <Compile Include="Controllers\ConfigurationHelper.cs" />
     <Compile Include="Controllers\FileAndMailController.cs" />
     <Compile Include="Areas\admin\Controllers\NhaXuatBanController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Controllers\HoTuanPhuocController.cs" />
     <Compile Include="Controllers\IMomoService.cs" />
     <Compile Include="Controllers\HoTuanPhuocSearchController.cs" />
+    <Compile Include="Areas\admin\Controllers\String.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -238,6 +240,9 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Mail.cs" />
+    <Compile Include="Models\MENU.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MomoApiConfig.cs" />
     <Compile Include="Models\NHAXUATBAN.cs">
       <DependentUpon>DB.tt</DependentUpon>
@@ -247,6 +252,9 @@
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TACGIA.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRANGTIN.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VIETSACH.cs">
@@ -1351,6 +1359,10 @@
     <Content Include="ckfinder\skins\bootstrap\assets\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Areas\admin\Views\HomeAdmin\DangKy.cshtml" />
     <Content Include="Areas\admin\Views\NhaXuatBanModal\Index.cshtml" />
+    <Content Include="Areas\admin\Views\TrangTin\Index.cshtml" />
+    <Content Include="Areas\admin\Views\TrangTin\Create.cshtml" />
+    <Content Include="Areas\admin\Views\TrangTin\Edit.cshtml" />
+    <Content Include="Areas\admin\Views\TrangTin\Delele.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1404,6 +1416,8 @@
     <Content Include="Views\HoTuanPhuocSearch\SearchCoPhanTrangTuyChon.cshtml" />
     <Content Include="Views\HoTuanPhuocSearch\SearchPhanTrangSapXep.cshtml" />
     <Content Include="Views\User\DangKy_KiemLoi.cshtml" />
+    <Content Include="Views\Shared\LoadChildMenu.cshtml" />
+    <Content Include="Views\HoTuanPhuoc\TrangTin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
