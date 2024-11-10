@@ -13,7 +13,7 @@
           <Property Name="HoTen" Type="nvarchar" MaxLength="50" />
           <Property Name="DienThoai" Type="varchar" MaxLength="10" />
           <Property Name="TenDN" Type="varchar" MaxLength="15" />
-          <Property Name="MatKhau" Type="varchar" MaxLength="15" />
+          <Property Name="MatKhau" Type="nvarchar" MaxLength="1000" />
           <Property Name="Quyen" Type="int" />
         </EntityType>
         <EntityType Name="BinhLuan">
@@ -64,11 +64,21 @@
           <Property Name="MaKH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HoTen" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TaiKhoan" Type="varchar" MaxLength="15" />
-          <Property Name="MatKhau" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="MatKhau" Type="varchar" MaxLength="1000" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="DiaChi" Type="nvarchar" MaxLength="50" />
           <Property Name="DienThoai" Type="varchar" MaxLength="10" />
           <Property Name="NgaySinh" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MenuName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MenuLink" Type="nvarchar" MaxLength="100" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="OrderNumber" Type="int" />
         </EntityType>
         <EntityType Name="NHAXUATBAN">
           <Key>
@@ -102,6 +112,16 @@
           <Property Name="DiaChi" Type="nvarchar" MaxLength="100" />
           <Property Name="TieuSu" Type="ntext" />
           <Property Name="DienThoai" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="TRANGTIN">
+          <Key>
+            <PropertyRef Name="MaTT" />
+          </Key>
+          <Property Name="MaTT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenTrang" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NoiDung" Type="ntext" />
+          <Property Name="NgayTao" Type="smalldatetime" />
+          <Property Name="MetaTitle" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="VIETSACH">
           <Key>
@@ -228,9 +248,11 @@
           <EntitySet Name="CHUDE" EntityType="Self.CHUDE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DONDATHANG" EntityType="Self.DONDATHANG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MENU" EntityType="Self.MENU" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NHAXUATBAN" EntityType="Self.NHAXUATBAN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SACH" EntityType="Self.SACH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TACGIA" EntityType="Self.TACGIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRANGTIN" EntityType="Self.TRANGTIN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VIETSACH" EntityType="Self.VIETSACH" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BinhLuan_CD" Association="Self.FK_BinhLuan_CD">
             <End Role="KHACHHANG" EntitySet="KHACHHANG" />
@@ -281,7 +303,7 @@
           <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DienThoai" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="TenDN" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="MatKhau" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Quyen" Type="Int32" />
         </EntityType>
         <EntityType Name="CHITIETDATHANG">
@@ -324,7 +346,7 @@
           <Property Name="MaKH" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="HoTen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TaiKhoan" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="MatKhau" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DiaChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DienThoai" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -515,6 +537,8 @@
             <End Role="SACH" EntitySet="SACHes" />
             <End Role="BinhLuan" EntitySet="BinhLuans" />
           </AssociationSet>
+          <EntitySet Name="MENUs" EntityType="SachOnlineModel.MENU" />
+          <EntitySet Name="TRANGTINs" EntityType="SachOnlineModel.TRANGTIN" />
         </EntityContainer>
         <EntityType Name="BinhLuan">
           <Key>
@@ -555,6 +579,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MENU">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MenuName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MenuLink" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="OrderNumber" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TRANGTIN">
+          <Key>
+            <PropertyRef Name="MaTT" />
+          </Key>
+          <Property Name="MaTT" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenTrang" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NgayTao" Type="DateTime" Precision="0" />
+          <Property Name="MetaTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -674,6 +718,28 @@
                 <ScalarProperty Name="MaKH" ColumnName="MaKH" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="MaBinhLuan" ColumnName="MaBinhLuan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MENUs">
+            <EntityTypeMapping TypeName="SachOnlineModel.MENU">
+              <MappingFragment StoreEntitySet="MENU">
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="MenuLink" ColumnName="MenuLink" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRANGTINs">
+            <EntityTypeMapping TypeName="SachOnlineModel.TRANGTIN">
+              <MappingFragment StoreEntitySet="TRANGTIN">
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="NgayTao" ColumnName="NgayTao" />
+                <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
+                <ScalarProperty Name="TenTrang" ColumnName="TenTrang" />
+                <ScalarProperty Name="MaTT" ColumnName="MaTT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

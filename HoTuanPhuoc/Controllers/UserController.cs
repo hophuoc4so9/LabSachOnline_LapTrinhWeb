@@ -1,11 +1,16 @@
 ﻿using HoTuanPhuoc.Models;
+using Microsoft.Ajax.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using System.Data.Entity.Infrastructure.Design;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.Mvc;
+using System.Data.Entity.Validation;
 
 namespace HoTuanPhuoc.Controllers
 {
@@ -28,7 +33,124 @@ namespace HoTuanPhuoc.Controllers
             ViewBag.ThongBao = "";
             return View();
         }
+        [HttpPost]
+        public ActionResult DangKy(FormCollection collection, KHACHHANG kh)
+        {
+            string sHoTen = collection["HoTen"];
+            var sTenDN = collection["TenDN"];
+            var sMatKhau = collection["MatKhau"];
+            var sNhapLaiMatKhau = collection["NhapLaiMatKhau"];
+            var sEmail = collection["Email"];
+            var sDienThoai = collection["DienThoai"];
+            var sDiaChi = collection["DiaChi"];
+            var sNgaySinh = String.Format("{0:MM/dd/yyyy}", collection["NgaySinh"]);
 
+            if (String.IsNullOrEmpty(sHoTen))
+            {
+                ViewData["err1"] = "Họ tên không được rỗng";
+            }
+            else if (String.IsNullOrEmpty(sTenDN))
+            {
+                ViewData["err2"] = "Tên đăng nhập không được rỗng";
+            }
+            else if (String.IsNullOrEmpty(sMatKhau))
+            {
+                ViewData["err3"] = "Mật khẩu không được rỗng";
+            }
+            else if (String.IsNullOrEmpty(sNhapLaiMatKhau))
+            {
+                ViewData["err4"] = "Nhập mật khẩu lại";
+            }
+            else if (sMatKhau != sNhapLaiMatKhau)
+            {
+                ViewData["err4"] = "Mật khẩu phải giống nhau";
+            }
+            else if (String.IsNullOrEmpty(sEmail))
+            {
+                ViewData["err5"] = "Email không được rỗng";
+            }
+            else if (String.IsNullOrEmpty(sDienThoai))
+            {
+                ViewData["err6"] = "Số điện thoại không được rỗng";
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == sTenDN) != null)
+            {
+                ViewBag.ThongBao = "Tên đăng nhập đã được sử dụng";
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.Email == sEmail) != null)
+            {
+                ViewBag.ThongBao = "Email đã được sử dụng";
+            }
+            else
+            {
+                //Gán giá trị cho đối tượng được tạo mới (kh)
+                string hashedPassword = GetMD5(sMatKhau);
+
+                kh.HoTen = sHoTen;
+                kh.TaiKhoan = sTenDN;
+                kh.MatKhau = hashedPassword;
+                kh.Email = sEmail;
+                kh.DienThoai = sDienThoai;
+                kh.DiaChi = sDiaChi;
+                kh.NgaySinh = DateTime.Parse(sNgaySinh);
+
+                db.KHACHHANGs.Add(kh);
+                db.SaveChanges();
+                SendMail(sEmail, sTenDN);
+                return RedirectToAction("DangNhap");
+
+            }
+
+            return this.DangKy();
+        }
+        public ActionResult DangKy_kiemloi()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DangKy_kiemloi( KHACHHANG kh)
+        {
+           if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == kh.TaiKhoan) != null)
+            {
+                ModelState.AddModelError("TaiKhoan", "Tên đăng nhập đã được sử dụng") ;
+            }
+            else if (db.KHACHHANGs.SingleOrDefault(n => n.Email == kh.Email) != null)
+            {
+                ModelState.AddModelError("Email", "Email đã được sử dụng");
+             
+            }
+            else
+            {
+                //Gán giá trị cho đối tượng được tạo mới (kh)
+                try
+                {
+                    //Gán giá trị cho đối tượng được tạo mới (kh)
+                    string hashedPassword = GetMD5(kh.MatKhau);
+                    kh.MatKhauNL = hashedPassword;
+                    kh.MatKhau = hashedPassword;
+                    db.KHACHHANGs.Add(kh);
+                    db.SaveChanges();
+
+                    return RedirectToAction("DangNhap");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            // Log the error message
+                            System.Diagnostics.Debug.WriteLine($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
+                            // Optionally, add the error message to the ModelState to display it in the view
+                            ModelState.AddModelError(validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
+                }
+
+            }
+
+            return this.DangKy();
+        }
         public static string GetMD5(string str)
         {
 

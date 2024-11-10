@@ -1,8 +1,7 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial- scale=1">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -13,38 +12,38 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+    <style>
+        /* Thêm khoảng cách phía trên để tránh che mất nội dung */
+       
+    </style>
 </head>
 <body>
+    <!-- Thêm lớp navbar-fixed-top -->
     <nav class="navbar navbar-inverse">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navAdmin" aria-expanded="false">
-                    <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("Index","Home")"> SachOnlineAdmin</a>
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">SachOnlineAdmin</a>
             </div>
             <div class="collapse navbar-collapse" id="navAdmin">
                 <ul class="nav navbar-nav">
-                    <li><a href="@Url.Action("Index","Sach")">QUẢN LÝ SÁCH</a> </li>
-                    <li><a href="@Url.Action("Index","ChuDe")">QUẢN LÝ CHỦ ĐỀ</a> </li>
-                    <li>
-                        <a href="@Url.Action("Index","NhaXuatBan")">
-                            QUẢN LÝ NHÀ XUẤT
-                            BAN
-                        </a>
-                    </li>
-                    <li><a href="@Url.Action("Index","KhachHang")">QUẢN LÝ KHÁCH | HÀNG</a> </li>
-                    </li>
-                    <li><a href="@Url.Action("Index","DonHang")">QUẢN LÝ ĐƠN HÀNG</a> </li>
-                    <li>
-                        @Html.Action("_PartialLogin", "HoTuanPhuoc", new { area = "" })
-                    </li>
+                    <li><a href="@Url.Action("Index","Sach")">QUẢN LÝ SÁCH</a></li>
+                    <li><a href="@Url.Action("Index","ChuDe")">QUẢN LÝ CHỦ ĐỀ</a></li>
+                    <li><a href="@Url.Action("Index","NhaXuatBanModal")">QUẢN LÝ NHÀ XUẤT BẢN</a></li>
+                    <li><a href="@Url.Action("Index","TrangTin")">QUẢN LÝ TRANG</a></li>
+                    <li><a href="@Url.Action("Index","KhachHang")">QUẢN LÝ KHÁCH HÀNG</a></li>
+                    <li><a href="@Url.Action("Index","DonHang")">QUẢN LÝ ĐƠN HÀNG</a></li>
+                    <li>@Html.Action("_PartialLogin", "HomeAdmin")</li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container">
+   
+    <div class="container booo">
         @RenderBody()
     </div>
     <footer class="container well">
@@ -52,6 +51,7 @@
             <p>ADMIN</p>
         </div>
     </footer>
+
+    @RenderSection("script", required: false)
 </body>
 </html>
-@RenderSection("script", required: false)

@@ -20,11 +20,28 @@
 
 <h2 style="text-align: center"> Quản lý thông tin sách </h2>
 <p>@Html.ActionLink("Thêm mới", "Create")</p>
+
+
+@using (Html.BeginForm("Index", "Sach", FormMethod.Get, new { @class = "search-form" }))
+{
+    <p>
+        <input type="text" name="strSearch"
+               value="@ViewBag.Search" placeholder="Nhập sản phẩm cần tìm...." 
+               class="form-control flex-1" />
+        <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
+    </p>
+}
+<style>
+    .flex-1 {
+        flex: 1;
+    }
+</style>
+
 @if (Model != null)
 {
     if (Model.Count() > 0)
     {
-       
+
         <table class="table">
             <tr>
 
@@ -57,28 +74,28 @@
 
             @foreach (var item in Model)
             {
-                
+
                 <tr>
-                    
+
                     <td>
-                      
-                        @Truncate(item.TenSach,50)
+
+                        @Truncate(item.TenSach, 50)
                     </td>
                     <td>
-                        @Truncate(item.MoTa,70)
+                        @Truncate(item.MoTa, 70)
                     </td>
                     <td>
-                        <img src="~/Images/@item.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook " style="width:50px"/>
+                        <img src="~/Images/@item.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook " style="width:50px" />
                     </td>
                     <td>
-                        @Html.FormatValue(item.NgayCapNhat,"{0:dd/MM/yyyy}")
+                        @Html.FormatValue(item.NgayCapNhat, "{0:dd/MM/yyyy}")
                     </td>
                     <td>
                         @item.SoLuongBan
                     </td>
                     <td>
-                       
-                        @Html.FormatValue(item.GiaBan,"{0:#,##0}")
+
+                        @Html.FormatValue(item.GiaBan, "{0:#,##0}")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CHUDE.TenChuDe)
@@ -106,7 +123,7 @@
     }
     else
     {
-        
+
 
     }
 

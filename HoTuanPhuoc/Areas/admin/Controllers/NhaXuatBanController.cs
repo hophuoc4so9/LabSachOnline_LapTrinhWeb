@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class NhaXuatBanController : Controller
+    public class NhaXuatBanController : BaseAdminController
     {
         SachOnlineEntities db = new SachOnlineEntities();
         // GET: admin/NhaXuatBan

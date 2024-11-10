@@ -19,8 +19,19 @@
     </thead>
     <tbody id="tblDsChuDe">
     </tbody>
-</table>
+    <div id="pagination">
 
+    </div>
+    <div class="row" style="display: flex; align-items: center;">
+        <input type="text" id="txtSearch" class="form-control flex-1" placeholder="Tìm kiếm chủ đề" style="flex: 1; margin-right: 10px;" />
+        <button class="btn btn-primary" id="btnSearch">Tìm kiếm</button>
+    </div>
+</table>
+<style>
+    .flex-1 {
+        flex: 1;
+    }
+</style>
 <div class="modal fade" id="modalChuDe" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -48,10 +59,11 @@
             LoadDsChuDe();
         });
 
-        function LoadDsChuDe() {
+        function LoadDsChuDe(page = 1, pageSize = 5, search = "") {
             $.ajax({
                 url: '/Admin/ChuDe/DsChuDe',
                 type: 'get',
+                data: { page: page, pageSize: pageSize, search: search },
                 success: function (data) {
                     if (data.code == 200) {
                         $('#tblDsChuDe').empty();
@@ -66,10 +78,34 @@
                             s += '</tr>';
                             $('#tblDsChuDe').append(s);
                         });
+
+                        // Update pagination controls
+                        $('#pagination').empty();
+                        for (let i = 1; i <= data.totalPages; i++) {
+                            let pageButton = $('<button>')
+                                .text(i)
+                                .addClass('btn btn-default')
+                                .click(function () {
+                                    LoadDsChuDe(i, pageSize, search);
+                                });
+                            if (i === data.currentPage) {
+                                pageButton.addClass('btn-primary');
+                            }
+                            $('#pagination').append(pageButton);
+                        }
                     }
                 }
             });
         }
+
+        $(document).ready(function () {
+            LoadDsChuDe();
+
+            $('#btnSearch').click(function () {
+                let search = $('#txtSearch').val().trim();
+                LoadDsChuDe(1, 5, search);
+            });
+        });
 
         // Open modal to add a new topic
         $('#btnAdd').click(function () {
@@ -172,4 +208,4 @@
             });
         });
     </script>
-}
+    }

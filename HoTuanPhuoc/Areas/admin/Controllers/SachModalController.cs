@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class SachModalController : Controller
+    public class SachModalController : BaseAdminController
     {
         private readonly SachOnlineEntities db = new SachOnlineEntities();
 
