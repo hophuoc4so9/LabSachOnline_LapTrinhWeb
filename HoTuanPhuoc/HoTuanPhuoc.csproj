@@ -188,6 +188,7 @@
     <Compile Include="Areas\admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\admin\Controllers\ChuDeController.cs" />
     <Compile Include="Areas\admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\admin\Controllers\MenuController.cs" />
     <Compile Include="Areas\admin\Controllers\NhaXuatBanModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachController.cs" />
@@ -1363,6 +1364,9 @@
     <Content Include="Areas\admin\Views\TrangTin\Create.cshtml" />
     <Content Include="Areas\admin\Views\TrangTin\Edit.cshtml" />
     <Content Include="Areas\admin\Views\TrangTin\Delele.cshtml" />
+    <Content Include="Areas\admin\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\ChildMenu.cshtml" />
+    <Content Include="Areas\admin\Views\Shared\ChildMenu1.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
