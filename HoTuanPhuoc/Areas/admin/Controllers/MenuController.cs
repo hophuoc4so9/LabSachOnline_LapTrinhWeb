@@ -1,12 +1,11 @@
-﻿using System;
+﻿using HoTuanPhuoc.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using HoTuanPhuoc.Models;
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class MenuController : Controller
+    public class MenuController : BaseAdminController
     {
         // GET: admin/Menu
 
@@ -83,17 +82,17 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                         if (!string.IsNullOrEmpty(f["ParentID"]))
                         {
                             m.ParentId = int.Parse(f["ParentID"]);
-                        }   
+                        }
                         else m.ParentId = null;
 
-                            m.OrderNumber = int.Parse(f["Number"]);
+                        m.OrderNumber = int.Parse(f["Number"]);
 
 
                         List<MENU> l = null;
                         if (m.ParentId == null)
                             l = db.MENUs.Where(k => k.ParentId == null && k.OrderNumber >= m.OrderNumber).ToList();
                         else
-                            l = db.MENUs.Where(k => k.ParentId == m.ParentId && k.OrderNumber >= m.OrderNumber).ToList(); 
+                            l = db.MENUs.Where(k => k.ParentId == m.ParentId && k.OrderNumber >= m.OrderNumber).ToList();
                         for (int i = 0; i < l.Count; i++)
                             l[i].OrderNumber++;
                         db.MENUs.Add(m);

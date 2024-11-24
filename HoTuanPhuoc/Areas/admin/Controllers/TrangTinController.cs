@@ -1,13 +1,11 @@
 ﻿using HoTuanPhuoc.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class TrangTinController : Controller
+    public class TrangTinController : BaseAdminController
     {
         // GET: admin/TrangTin
         SachOnlineEntities db = new SachOnlineEntities();
@@ -35,7 +33,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         }
         public ActionResult Edit(int id)
         {
-            TRANGTIN tt= db.TRANGTINs.Where(n=>n.MaTT==id).FirstOrDefault();
+            TRANGTIN tt = db.TRANGTINs.Where(n => n.MaTT == id).FirstOrDefault();
             return View(tt);
         }
         [HttpPost]
@@ -46,7 +44,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             if (ModelState.IsValid)
             {
                 int mtt = int.Parse(f["MaTT"]);
-                var tt = db.TRANGTINs.Where(t => t.MaTT ==mtt ).SingleOrDefault();
+                var tt = db.TRANGTINs.Where(t => t.MaTT == mtt).SingleOrDefault();
                 tt.TenTrang = f["TenTrang"];
                 tt.NoiDung = f["NoiDung"];
                 tt.NgayTao = Convert.ToDateTime(f["NgayTao"]);

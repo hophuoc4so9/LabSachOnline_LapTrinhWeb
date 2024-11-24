@@ -28,7 +28,7 @@ namespace HoTuanPhuoc
             routes.MapRoute(
                         name: "Sach theo Chu de",
             url: "sach-theo-chu-de-{MaCD}",
-            defaults: new { controller = "HoTuanPhuoc", action= "sachtheochude2", MaCD = UrlParameter.Optional },
+            defaults: new { controller = "HoTuanPhuoc", action = "sachtheochude2", MaCD = UrlParameter.Optional },
             namespaces: new string[] { "HoTuanPhuoc.Controllers" }
             );
 
@@ -41,11 +41,12 @@ namespace HoTuanPhuoc
 
             routes.MapRoute(
              name: "Chi tiet sach",
-            url: "chi-tiet-sach-{MaSach}",
-            defaults: new { controller = "HoTuanPhuoc", action = "BookDetail", MaSach = UrlParameter.Optional },
+            url: "chi-tiet-sach-{id}",
+            defaults: new { controller = "HoTuanPhuoc", action = "BookDetail", id = UrlParameter.Optional },
              namespaces: new string[] { "HoTuanPhuoc.Controllers" }
 
             );
+           
 
             routes.MapRoute(
                         name: "Dang ky",
@@ -56,13 +57,13 @@ namespace HoTuanPhuoc
             routes.MapRoute(
                        name: "Dang nhap",
                 url: "dang-nhap",
-                defaults: new { controller = "User", action = "DangNhap", url= UrlParameter.Optional },
+                defaults: new { controller = "User", action = "DangNhap", url = UrlParameter.Optional },
                namespaces: new string[] { "HoTuanPhuoc.Controllers" }
            );
             routes.MapRoute(
                      name: "Trang tin",
               url: "{metatitle}",
-              defaults: new { controller = "HoTuanPhuoc", action = "TrangTin", metatitle= UrlParameter.Optional },
+              defaults: new { controller = "HoTuanPhuoc", action = "TrangTin", metatitle = UrlParameter.Optional },
              namespaces: new string[] { "HoTuanPhuoc.Controllers" }
          );
 

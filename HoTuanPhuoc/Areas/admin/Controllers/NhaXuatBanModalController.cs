@@ -1,13 +1,11 @@
 ﻿using HoTuanPhuoc.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Areas.admin.Controllers
 {
-    public class NhaXuatBanModalController : Controller
+    public class NhaXuatBanModalController : BaseAdminController
     {
         // GET: admin/NhaXuatBanModal
         SachOnlineEntities db = new SachOnlineEntities();
@@ -82,7 +80,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddNXB(string strTenCD,string DiaChi,string DienThoai)
+        public JsonResult AddNXB(string strTenCD, string DiaChi, string DienThoai)
         {
             try
             {

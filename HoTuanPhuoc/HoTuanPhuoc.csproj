@@ -188,6 +188,7 @@
     <Compile Include="Areas\admin\Controllers\BaseAdminController.cs" />
     <Compile Include="Areas\admin\Controllers\ChuDeController.cs" />
     <Compile Include="Areas\admin\Controllers\HomeAdminController.cs" />
+    <Compile Include="Areas\admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\admin\Controllers\MenuController.cs" />
     <Compile Include="Areas\admin\Controllers\NhaXuatBanModalController.cs" />
     <Compile Include="Areas\admin\Controllers\SachModalController.cs" />
@@ -1388,7 +1389,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -1427,6 +1427,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\admin\Data\" />
     <Folder Include="Areas\admin\Views\BaseAdmin\" />
+    <Folder Include="Areas\admin\Views\Home\" />
     <Folder Include="UploadFile\" />
     <Folder Include="Uploads\images\" />
     <Folder Include="Views\IMomoService\" />

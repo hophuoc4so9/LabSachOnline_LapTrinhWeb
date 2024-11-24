@@ -5,7 +5,7 @@
     @:<ul class="dropdown-menu">
         foreach (var item in Model)
         {
-            if (ViewBag.lst[i] != 0)
+            if (ViewBag.list[i] != 0)
             {
                 <li class="dropdown-submenu">
                     <a href="#" class="test list-group-item">
@@ -14,20 +14,20 @@
                     @Html.Action("LoadChildMenu", "HoTuanPhuoc", new { parentId = item.Id })
                 </li>
 
-            }
-            else
-            {
+        }
+        else
+        {
                 if (@item.MenuLink.Contains("://"))
-                {
+            {
                     <li><a href="@item.MenuLink">@item.MenuName</a> </li>
                 }
-                else
-                {
+            else
+            {
                     <li><a href="~/@item.MenuLink">@item.MenuName</a> </li>
                 }
-            }
-
         }
+        i++;
+    }
     @:</ul>
 
 

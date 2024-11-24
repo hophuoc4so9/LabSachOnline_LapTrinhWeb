@@ -1,10 +1,12 @@
 ﻿using HoTuanPhuoc.Models;
-using Microsoft.Ajax.Utilities;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -19,7 +21,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         {
             int iSize = 7;
             int iPageNumber = page ?? 1;
-            ViewBag.Search = strSearch??"";
+            ViewBag.Search = strSearch ?? "";
             if (string.IsNullOrEmpty(strSearch))
             {
                 List<SACH> kq = db.SACHes.OrderBy(a => a.MaSach).ToList();
@@ -69,8 +71,16 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                 {
                     //Lấy tên file (Khai báo thư viện: System.IO)
                     var sFileName = Path.GetFileName(fFileUpload.FileName);
+                    sFileName = RemoveDiacritics2(sFileName);
+
                     //Lấy đường dẫn lưu file
                     var path = Path.Combine(Server.MapPath("~/Images"), sFileName); //Kiểm tra ảnh bìa đã tồn tại chưa để lưu lên thư mục
+                    using (var img = System.Drawing.Image.FromStream(fFileUpload.InputStream))
+                    {
+                        var resizedImg = new Bitmap(img, new Size(400, 500));
+                        resizedImg.Save(path, img.RawFormat);
+                    }
+
                     if (!System.IO.File.Exists(path))
                     {
                         fFileUpload.SaveAs(path);
@@ -178,7 +188,15 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                 if (fFileUpload != null)
                 {
                     var sFileName = Path.GetFileName(fFileUpload.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Images"), sFileName); //Kiểm tra file đã tồn tại chưa
+                    sFileName = RemoveDiacritics2(sFileName);
+
+                    //Lấy đường dẫn lưu file
+                    var path = Path.Combine(Server.MapPath("~/Images"), sFileName); //Kiểm tra ảnh bìa đã tồn tại chưa để lưu lên thư mục
+                    using (var img = System.Drawing.Image.FromStream(fFileUpload.InputStream))
+                    {
+                        var resizedImg = new Bitmap(img, new Size(400, 500));
+                        resizedImg.Save(path, img.RawFormat);
+                    }
 
                     if (!System.IO.File.Exists(path))
                     {
@@ -198,6 +216,22 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(sach);
+        }
+        private string RemoveDiacritics2(string text)
+        {
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
 
 

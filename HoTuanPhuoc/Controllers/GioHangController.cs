@@ -284,7 +284,7 @@ namespace HoTuanPhuoc.Controllers
 
             var mail = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "suje ugwx ynyb ctjt"),
+                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "kjff rmzc ujwd vjrt"),
                 EnableSsl = true
             };
 

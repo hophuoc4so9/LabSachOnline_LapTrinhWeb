@@ -1,16 +1,13 @@
 ﻿using HoTuanPhuoc.Models;
-using Microsoft.Ajax.Utilities;
 using System;
-using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
-using System.Net.Mail;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using System.Data.Entity.Infrastructure.Design;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Data.Entity.Validation;
+using System.Web.Mvc;
 
 namespace HoTuanPhuoc.Controllers
 {
@@ -44,7 +41,7 @@ namespace HoTuanPhuoc.Controllers
             var sDienThoai = collection["DienThoai"];
             var sDiaChi = collection["DiaChi"];
             var sNgaySinh = String.Format("{0:MM/dd/yyyy}", collection["NgaySinh"]);
-
+            var s = collection["NgaySinh"];
             if (String.IsNullOrEmpty(sHoTen))
             {
                 ViewData["err1"] = "Họ tên không được rỗng";
@@ -89,14 +86,57 @@ namespace HoTuanPhuoc.Controllers
                 kh.HoTen = sHoTen;
                 kh.TaiKhoan = sTenDN;
                 kh.MatKhau = hashedPassword;
+                kh.MatKhauNL = hashedPassword;
                 kh.Email = sEmail;
                 kh.DienThoai = sDienThoai;
                 kh.DiaChi = sDiaChi;
                 kh.NgaySinh = DateTime.Parse(sNgaySinh);
 
                 db.KHACHHANGs.Add(kh);
-                db.SaveChanges();
-                SendMail(sEmail, sTenDN);
+                try
+                {
+                    SendMail(sEmail, sTenDN);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ThongBao = ex.Message;
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    // Catch validation errors
+                    foreach (var validationError in ex.EntityValidationErrors)
+                    {
+                        foreach (var error in validationError.ValidationErrors)
+                        {
+                            Console.WriteLine($"Property: {error.PropertyName}, Error: {error.ErrorMessage}");
+                        }
+                    }
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Handle update exceptions, such as foreign key violations
+                    Console.WriteLine("An error occurred while saving changes: " + ex.Message);
+
+                    if (ex.InnerException != null)
+                    {
+                        Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Catch any other exceptions
+                    Console.WriteLine("An unexpected error occurred: " + ex.Message);
+                    if (ex.InnerException != null)
+                    {
+                        Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                    }
+                }
+
                 return RedirectToAction("DangNhap");
 
             }
@@ -108,16 +148,16 @@ namespace HoTuanPhuoc.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult DangKy_kiemloi( KHACHHANG kh)
+        public ActionResult DangKy_kiemloi(KHACHHANG kh)
         {
-           if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == kh.TaiKhoan) != null)
+            if (db.KHACHHANGs.SingleOrDefault(n => n.TaiKhoan == kh.TaiKhoan) != null)
             {
-                ModelState.AddModelError("TaiKhoan", "Tên đăng nhập đã được sử dụng") ;
+                ModelState.AddModelError("TaiKhoan", "Tên đăng nhập đã được sử dụng");
             }
             else if (db.KHACHHANGs.SingleOrDefault(n => n.Email == kh.Email) != null)
             {
                 ModelState.AddModelError("Email", "Email đã được sử dụng");
-             
+
             }
             else
             {
@@ -226,7 +266,7 @@ namespace HoTuanPhuoc.Controllers
             // Cấu hình thông tin Gmail
             var mail = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "yjrf goqc ufaq gurk"),
+                Credentials = new NetworkCredential("2224802010872@student.tdmu.edu.vn", "kjff rmzc ujwd vjrt"),
                 EnableSsl = true
             };
 

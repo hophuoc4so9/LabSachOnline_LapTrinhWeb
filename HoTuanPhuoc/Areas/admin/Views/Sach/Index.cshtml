@@ -82,7 +82,8 @@
                         @Truncate(item.TenSach, 50)
                     </td>
                     <td>
-                        @Truncate(item.MoTa, 70)
+                        @Html.Raw(Html.Encode(Truncate(item.MoTa, 70)))
+
                     </td>
                     <td>
                         <img src="~/Images/@item.AnhBia" alt="Thumbnail Image" class="img-responsive img-rounded imgbook " style="width:50px" />

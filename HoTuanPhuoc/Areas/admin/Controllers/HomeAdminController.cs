@@ -10,7 +10,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
 {
     public class HomeAdminController : Controller
     {
-       
+
 
         // GET: admin/Home
         SachOnlineEntities db = new SachOnlineEntities();
@@ -23,12 +23,12 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
         {
             return View();
         }
-        
-             public ActionResult _PartialLogin()
+
+        public ActionResult _PartialLogin()
         {
             return PartialView();
         }
-       
+
         public ActionResult DangXuat()
         {
             Session["Admin"] = null;
@@ -43,7 +43,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             // Gán giá trị cho đối tượng được tạo mới (ad)
             //
             string hashedPassword = GetMD5(sMatKhau);
-            ADMIN ad = db.ADMINs.SingleOrDefault(n => n.TenDN == sTenDN &&(n.MatKhau == hashedPassword || n.MatKhau == sMatKhau ));
+            ADMIN ad = db.ADMINs.SingleOrDefault(n => n.TenDN == sTenDN && (n.MatKhau == hashedPassword || n.MatKhau == sMatKhau));
             if (ad != null)
             {
                 Session["Admin"] = ad;
@@ -68,7 +68,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
             }
 
 
-            
+
             else
             {
                 //Gán giá trị cho đối tượng được tạo mới (kh)
@@ -81,7 +81,7 @@ namespace HoTuanPhuoc.Areas.admin.Controllers
                     db.ADMINs.Add(kh);
                     db.SaveChanges();
 
-                    return RedirectToAction("Login");
+                    return RedirectToAction("DangNhap");
                 }
                 catch (DbEntityValidationException ex)
                 {

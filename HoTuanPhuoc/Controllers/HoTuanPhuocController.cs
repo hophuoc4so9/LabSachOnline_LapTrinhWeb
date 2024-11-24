@@ -35,24 +35,24 @@ namespace HoTuanPhuoc.Controllers
         public ActionResult PartialNav()
         {
             SachOnlineEntities db = new SachOnlineEntities();
-            List<MENU> lst = db.MENUs.Where(m=>m.ParentId==null).OrderBy(n=>n.OrderNumber).ToList();
-            int[] a= new int[lst.Count];
-            for(int i=0;i<lst.Count();i++)
+            List<MENU> lst = db.MENUs.Where(m => m.ParentId == null).OrderBy(n => n.OrderNumber).ToList();
+            int[] a = new int[lst.Count];
+            for (int i = 0; i < lst.Count(); i++)
             {
-                int id=lst[i].Id;
+                int id = lst[i].Id;
                 List<MENU> l = db.MENUs.Where(m => m.ParentId == id).ToList();
                 int k = l.Count();
                 a[i] = k;
             }
             ViewBag.lst = a;
 
-            return PartialView("_PartialNav",lst);
+            return PartialView("_PartialNav", lst);
         }
 
         [ChildActionOnly]
         public ActionResult LoadChildMenu(int parentId)
         {
-            List < MENU > lst = new List<MENU>();
+            List<MENU> lst = new List<MENU>();
             lst = data.MENUs.Where(m => m.ParentId == parentId).OrderBy(m => m.OrderNumber).ToList();
             ViewBag.Count = lst.Count();
             int[] a = new int[lst.Count()];
@@ -63,10 +63,10 @@ namespace HoTuanPhuoc.Controllers
                 int k = l.Count();
                 a[i] = k;
             }
-                ViewBag.lst=a;
-                return PartialView("LoadChildMenu", lst);
-         }
-                [ChildActionOnly]
+            ViewBag.list = a;
+            return PartialView("LoadChildMenu", lst);
+        }
+        [ChildActionOnly]
         public ActionResult PartialChuDe()
         {
             SachOnlineEntities db = new SachOnlineEntities();
@@ -85,7 +85,7 @@ namespace HoTuanPhuoc.Controllers
         }
         public ActionResult TrangTin(string metatitle)
         {
-            if (string.IsNullOrEmpty(metatitle)) return RedirectToAction("DangNhap","User");
+            if (string.IsNullOrEmpty(metatitle)) return RedirectToAction("DangNhap", "User");
             TRANGTIN tt = data.TRANGTINs.Where(t => t.MetaTitle == metatitle).SingleOrDefault();
             return View("TrangTin", tt);
         }
@@ -100,7 +100,7 @@ namespace HoTuanPhuoc.Controllers
             ViewBag.tenChuDeSach = tenChuDeSach;
             return View(Model.ToPagedList(iPageNumber, iSize));
         }
-        public ActionResult sachtheochude2(int? page,int MaCD)
+        public ActionResult sachtheochude2(int? page, int MaCD)
         {
             int id = MaCD;
             SachOnlineEntities db = new SachOnlineEntities();
@@ -109,7 +109,7 @@ namespace HoTuanPhuoc.Controllers
             int iPageNumber = page ?? 1;
             string tenChuDeSach = db.CHUDEs.Where(item => item.MaCD == id).FirstOrDefault().TenChuDe;
             ViewBag.tenChuDeSach = tenChuDeSach;
-            return View("sachtheochude",Model.ToPagedList(iPageNumber, iSize));
+            return View("sachtheochude", Model.ToPagedList(iPageNumber, iSize));
         }
         public ActionResult sachtheonhaxuatban(int? page)
         {
@@ -122,7 +122,7 @@ namespace HoTuanPhuoc.Controllers
             ViewBag.tenNXB = tenNXB;
             return View(Model.ToPagedList(iPageNumber, iSize));
         }
-        public ActionResult sachtheonhaxuatban2(int? page,int MaNXB)
+        public ActionResult sachtheonhaxuatban2(int? page, int MaNXB)
         {
             int id = MaNXB;
             SachOnlineEntities db = new SachOnlineEntities();
@@ -133,7 +133,7 @@ namespace HoTuanPhuoc.Controllers
             ViewBag.tenNXB = tenNXB;
             return View("sachtheonhaxuatban", Model.ToPagedList(iPageNumber, iSize));
         }
-        public ActionResult BookDetail(int id)
+        public ActionResult BookDetail(int? id)
         {
             SachOnlineEntities db = new SachOnlineEntities();
             SACH sACH = db.SACHes.Where(item => item.MaSach == id).ToList().SingleOrDefault();
