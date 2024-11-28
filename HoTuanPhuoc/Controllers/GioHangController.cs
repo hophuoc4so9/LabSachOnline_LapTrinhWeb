@@ -1,6 +1,7 @@
 ﻿using HoTuanPhuoc.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -46,7 +47,7 @@ namespace HoTuanPhuoc.Controllers
             {
                 sp.iSoLuong++;
             }
-
+            TempData["Message"] = "Sản phẩm đã được thêm vào giỏ hàng.";
             return Redirect(url);
         }
         // Tính tổng số lượng
@@ -173,14 +174,13 @@ namespace HoTuanPhuoc.Controllers
             ddh.MaKH = kh.MaKH;
             ddh.NgayDat = DateTime.Now;
             var NgayGiao = String.Format("{0:MM/dd/yyyy}", f["NgayGiao"]);
-            SendMail(kh.Email);
+            
             ddh.NgayGiao = DateTime.Parse(NgayGiao);
             ddh.DaThanhToan = false;
 
             db.DONDATHANGs.Add(ddh);
             db.SaveChanges();
             string phuongthucthanhtoan = f["paymentMethod"];
-
             // Thêm chi tiết đơn hàng
             foreach (var item in lstCart)
             {
@@ -193,15 +193,17 @@ namespace HoTuanPhuoc.Controllers
 
                 db.CHITIETDATHANGs.Add(ctdh);
             }
-
             db.SaveChanges();
+
+
             if (phuongthucthanhtoan == "momo")
             {
+                return RedirectToAction("PaymentVNPay", "GioHang", new { id = ddh.MaDonHang, ngayGiao = NgayGiao });
 
             }
-            else
+            else if (phuongthucthanhtoan == "vnpay")
             {
-
+                return RedirectToAction("PaymentVNPay", "GioHang", new { id = ddh.MaDonHang, ngayGiao = NgayGiao });
             }
             Session["GioHang"] = null;
 
@@ -217,12 +219,13 @@ namespace HoTuanPhuoc.Controllers
 
 
 
-        public ActionResult SendMail(string recipientEmail)
+        public ActionResult SendMail(string recipientEmail, string ngayGiao)
         {
             List<GioHang> lstGioHang = LayGioHang();
             double soluong = TongSoLuong();
             double soTien = TongTien();
             KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
+
             // Cấu hình thông tin Gmail
             string Body = $@"
 <html>
@@ -252,10 +255,10 @@ namespace HoTuanPhuoc.Controllers
   <h1>Chào {kh.HoTen}</h1>
     <p>Cảm ơn bạn đã đặt hàng của chúng tôi. Chi tiết đơn hàng của bạn ở trên.</p>
     <h2 style='text-align:center; font-weight:bold;'>THÔNG TIN ĐƠN HÀNG</h2>
+    <h2 style='text-align:center;'>Ngày giao: {ngayGiao}</h2>
     <table>
         <tr>
             <th>Sách</th>
-            
             <th>Số lượng</th>
             <th>Thành tiền</th>
         </tr>";
@@ -278,7 +281,6 @@ namespace HoTuanPhuoc.Controllers
             </td>
         </tr>
     </table>
-  
 </body>
 </html>";
 
@@ -304,5 +306,126 @@ namespace HoTuanPhuoc.Controllers
 
             return View("DangNhap"); // Redirect or return a different view if needed
         }
+        public ActionResult PaymentVNPay(int? id, string ngayGiao)
+        {
+            string url = ConfigurationManager.AppSettings["Url"];
+            string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
+            string tmnCode = ConfigurationManager.AppSettings["TmnCode"];
+            string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
+
+            PayLib pay = new PayLib();
+
+            pay.AddRequestData("vnp_Version", "2.1.0"); // Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
+            pay.AddRequestData("vnp_Command", "pay"); // Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
+            pay.AddRequestData("vnp_TmnCode", tmnCode); // Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
+            pay.AddRequestData("vnp_Amount", TongTien().ToString() + "00"); // Số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) -> 1000000
+                                                                               // TotalAmount() là phương thức trả về tổng tiền của đơn hàng.
+            pay.AddRequestData("vnp_BankCode", "NCB"); // Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
+            pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); // Ngày thanh toán theo định dạng yyyyMMddHHmmss
+            pay.AddRequestData("vnp_CurrCode", "VND"); // Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
+            pay.AddRequestData("vnp_IpAddr", Util.GetIpAddress()); // Địa chỉ IP của khách hàng thực hiện giao dịch
+            pay.AddRequestData("vnp_Locale", "vn"); // Ngôn ngữ giao diện hiển thị - Tiếng Việt (vn), Tiếng Anh (en)
+            pay.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng"); // Thông tin mô tả nội dung thanh toán
+            pay.AddRequestData("vnp_OrderType", "other"); // topup: Nạp tiền điện thoại - billpayment: Thanh toán hóa đơn - fashion: Thời trang - other: Thanh toán trực tuyến
+            pay.AddRequestData("vnp_ReturnUrl", returnUrl); // URL thông báo kết quả giao dịch khi Khách hàng kết thúc thanh toán
+            pay.AddRequestData("vnp_TxnRef", DateTime.Now.Ticks.ToString()); // Mã hóa đơn
+
+            string paymentUrl = pay.CreateRequestUrl(url, hashSecret);
+
+            LuuDonHang(ngayGiao, false);
+            return Redirect(paymentUrl);
+        }
+        public ActionResult PaymentConfirm()
+        {
+            if (Request.QueryString.Count > 0)
+            {
+                string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
+                var vnpayData = Request.QueryString;
+
+                PayLib pay = new PayLib();
+
+                // Lấy toàn bộ dữ liệu được trả về
+                foreach (string s in vnpayData)
+                {
+                    if (!string.IsNullOrEmpty(s) && s.StartsWith("vnp_"))
+                    {
+                        pay.AddResponseData(s, vnpayData[s]);
+                    }
+                }
+
+                long orderId = Convert.ToInt64(pay.GetResponseData("vnp_TxnRef")); // Mã hóa đơn
+                long vnpayTranId = Convert.ToInt64(pay.GetResponseData("vnp_TransactionNo")); // Mã giao dịch tại hệ thống VNPAY
+                string vnp_ResponseCode = pay.GetResponseData("vnp_ResponseCode"); // response code: 00 - thành công, khác 00 - xem thêm https://sandbox.vnpayment.vn/apis/docs/bang-ma-loi/
+                string vnp_SecureHash = Request.QueryString["vnp_SecureHash"]; // hash của dữ liệu trả về
+
+                bool checkSignature = pay.ValidateSignature(vnp_SecureHash, hashSecret); // check chữ ký đúng hay không?
+
+                if (checkSignature)
+                {
+                    if (vnp_ResponseCode == "00")
+                    {
+                        DateTime t = new DateTime();
+                        LuuDonHang(t.ToString(), true);
+                        // Thanh toán thành công
+                        ViewBag.Message = "Thanh toán thành công hóa đơn " + orderId + " | Mã giao dịch: " + vnpayTranId;
+                    }
+                    else
+                    {
+                        // Thanh toán không thành công. Mã lỗi: vnp_ResponseCode
+                        ViewBag.Message = "Có lỗi xảy ra trong quá trình xử lý hóa đơn " + orderId + " | Mã giao dịch: " + vnpayTranId + " | Mã lỗi: " + vnp_ResponseCode;
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "Có lỗi xảy ra trong quá trình xử lý";
+                }
+            }
+
+            return View("XacNhanDonHang");
+        }
+        private void LuuDonHang(string NgayGiao, Boolean daThanhToan)
+        {
+            // Thêm đơn hàng
+            DONDATHANG ddh = new DONDATHANG();
+            KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
+            List<GioHang> lstCart = LayGioHang();
+
+            ddh.MaKH = kh.MaKH;
+            ddh.NgayDat = DateTime.Now;
+            if(daThanhToan==false)
+            {
+                var ngayGiao = String.Format("{0:MM/dd/yyyy}", NgayGiao);
+                ddh.NgayGiao = DateTime.Parse(ngayGiao);
+            }    
+          
+
+            ddh.TinhTrangGiaoHang = 1;
+            ddh.DaThanhToan = daThanhToan;
+
+            db.DONDATHANGs.Add(ddh);
+            db.SaveChanges();
+
+            // Thêm chi tiết đơn hàng
+            foreach (var item in lstCart)
+            {
+                CHITIETDATHANG ctdh = new CHITIETDATHANG();
+                ctdh.MaDonHang = ddh.MaDonHang;
+                ctdh.MaSach = item.iMaSach;
+                ctdh.SoLuong = item.iSoLuong;
+                ctdh.DonGia = (decimal)item.dDonGia;
+
+                db.CHITIETDATHANGs.Add(ctdh);
+            }
+            db.SaveChanges();
+            if(daThanhToan==true)
+            {
+                string ngayGiao = ddh.NgayGiao.HasValue ? ddh.NgayGiao.Value.ToString("dd/MM/yyyy") : string.Empty;
+                SendMail(kh.Email, ngayGiao);
+                Session["GioHang"] = null;
+            }    
+
+          
+        }
+
     }
 }

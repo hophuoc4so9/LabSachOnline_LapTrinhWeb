@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\DaiHoc\nam 3\PublichWebTHLapTrinhWeb</_PublishTargetUrl>
-    <History>True|2024-11-24T03:00:34.3476168Z||;True|2024-11-24T09:47:16.2551344+07:00||;True|2024-11-24T08:07:18.0584102+07:00||;True|2024-11-24T08:03:05.2960408+07:00||;True|2024-11-24T07:22:12.9005813+07:00||;</History>
+    <History>True|2024-11-28T10:03:39.5831515Z||;True|2024-11-27T05:47:35.9887824+07:00||;True|2024-11-24T10:00:34.3476168+07:00||;True|2024-11-24T09:47:16.2551344+07:00||;True|2024-11-24T08:07:18.0584102+07:00||;True|2024-11-24T08:03:05.2960408+07:00||;True|2024-11-24T07:22:12.9005813+07:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -109,10 +109,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2020 03:38:56</publishTime>
     </File>
     <File Include="bin/HoTuanPhuoc.dll">
-      <publishTime>11/24/2024 10:43:23</publishTime>
+      <publishTime>11/28/2024 17:03:33</publishTime>
     </File>
     <File Include="bin/HoTuanPhuoc.pdb">
-      <publishTime>11/24/2024 10:43:23</publishTime>
+      <publishTime>11/28/2024 17:03:33</publishTime>
     </File>
     <File Include="bin/ImageProcessor.dll">
       <publishTime>12/18/2019 19:59:18</publishTime>
@@ -3541,7 +3541,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/30/2024 15:43:10</publishTime>
     </File>
     <File Include="LuotTruyCap.txt">
-      <publishTime>11/24/2024 10:40:45</publishTime>
+      <publishTime>11/28/2024 17:00:06</publishTime>
     </File>
     <File Include="Models/DB.edmx.diagram">
       <publishTime>11/10/2024 07:34:31</publishTime>
@@ -3622,13 +3622,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/28/2024 15:44:20</publishTime>
     </File>
     <File Include="Views/GioHang/DatHang.cshtml">
-      <publishTime>10/11/2024 08:41:56</publishTime>
+      <publishTime>11/28/2024 16:18:50</publishTime>
     </File>
     <File Include="Views/GioHang/GioHang.cshtml">
       <publishTime>10/11/2024 08:41:56</publishTime>
     </File>
     <File Include="Views/GioHang/XacNhanDonHang.cshtml">
-      <publishTime>10/11/2024 08:41:56</publishTime>
+      <publishTime>11/28/2024 16:07:15</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>11/24/2024 08:12:17</publishTime>
@@ -3652,7 +3652,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/24/2024 10:42:32</publishTime>
     </File>
     <File Include="Views/HoTuanPhuoc/sachtheonhaxuatban.cshtml">
-      <publishTime>11/24/2024 10:42:01</publishTime>
+      <publishTime>11/24/2024 11:02:10</publishTime>
     </File>
     <File Include="Views/HoTuanPhuoc/TrangTin.cshtml">
       <publishTime>11/10/2024 09:30:55</publishTime>
@@ -3685,7 +3685,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/11/2024 08:41:56</publishTime>
     </File>
     <File Include="Views/Shared/LayoutUser.cshtml">
-      <publishTime>11/10/2024 10:57:18</publishTime>
+      <publishTime>11/28/2024 16:25:37</publishTime>
     </File>
     <File Include="Views/Shared/LoadChildMenu.cshtml">
       <publishTime>11/17/2024 16:32:28</publishTime>
@@ -3733,7 +3733,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/24/2024 08:18:30</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/24/2024 08:25:43</publishTime>
+      <publishTime>11/28/2024 17:03:37</publishTime>
     </File>
   </ItemGroup>
 </Project>

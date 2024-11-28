@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "ĐƠN ĐẶT HÀNG";
     Layout = "~/Views/Shared/LayoutUser.cshtml";
+    DateTime now = DateTime.Now;
 }
 
 <h2 style="text-align:center; font-weight:bold;">THÔNG TIN ĐƠN HÀNG</h2>
@@ -42,7 +43,7 @@
 @{
     KHACHHANG kh = (KHACHHANG)Session["TaiKhoan"];
 }
-@using (Html.BeginForm("DatHang","GioHang",FormMethod.Post))
+@using (Html.BeginForm("DatHang", "GioHang", FormMethod.Post))
 {
     <table align="center">
 
@@ -72,10 +73,21 @@
         <tr style="height:40px;">
             <td>Ngày giao:</td>
             <td style="font-weight:bold">
-                <input type="date" name="NgayGiao" />
-            </td>
-        </tr>
-        <tr class="payment-options" style="height:40px;">
+                <input required min="@now.ToString("yyyy-MM-dd")" type="date" name="NgayGiao" />
+</td>
+
+</tr>
+
+
+
+
+</table>
+
+<center> <h2>Hình thức thanh toán</h2></center>
+
+<table align="center">
+
+<tr class="payment-options" style="height:40px;">
             <td>
                 <label>
                     <input type="radio" name="paymentMethod" value="momo" />
@@ -94,8 +106,6 @@
                 <input type="submit" class="order-btn" value="ĐẶT HÀNG" />
             </td>
         </tr>
-
-
     </table>
 }
 <style>

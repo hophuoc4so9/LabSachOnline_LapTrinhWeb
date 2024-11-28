@@ -262,6 +262,9 @@
     <Compile Include="Models\VIETSACH.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
+    <Compile Include="PayLib.cs" />
+    <Compile Include="PayCompare.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
